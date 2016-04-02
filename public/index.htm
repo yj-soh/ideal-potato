@@ -12,8 +12,8 @@
             <div class="container-fluid">
                 <a class="navbar-brand steam-brand" href="#/">Steam Game Buddies</a>
                 <ul class="nav navbar-nav navbar-right">
-                    <li ng-show="!isLoggedIn"><a ng-click="login()">Login with STEAM</a><li>
-                    <li ng-show="isLoggedIn"><a href="#/myprofile">My Profile</a></li>
+                    <li ng-show="!isLoggedIn"><a ng-click="login()"><img src="http://steamcommunity-a.akamaihd.net/public/images/signinthroughsteam/sits_small.png"></a><li>
+                    <li ng-show="isLoggedIn"><a href="#/profile">My Profile</a></li>
                     <li ng-show="isLoggedIn"><a href="#/findfriends">Find Friends</a></li>
                     <li ng-show="isLoggedIn"><a href="#/" ng-click="logout()">Logout</a></li>
                 </ul>

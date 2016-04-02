@@ -17,7 +17,10 @@ gameApp.config(function($routeProvider) {
             templateUrl: 'partials/main.html'
         }).
         when('/findfriends', {
-            templateUrl: 'partials/findfriends.html'    
+            templateUrl: 'partials/findfriends.html'
+        }).
+        when ('/profile', {
+            templateUrl: 'partials/profile.html'
         }).
         otherwise({
             redirectTo: '/'

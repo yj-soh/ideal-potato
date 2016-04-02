@@ -104,8 +104,8 @@ button:hover {
     width: 100px;
 }
 
-.recommended-friends .friend-information h4 {
-    margin-top: 0;
+.recommended-friends .friend-picture h4 {
+    text-align: center;
 }
 
 .recommended-friends .friend-information {
@@ -113,10 +113,64 @@ button:hover {
 }
 
 .recommended-friends .friend-games img {
-    width: 150px;
+    max-width: 150px;
+}
+
+.game-tag {
+    font-size: 10pt;
+    background-color: #21211F;
+    padding-left: 8px;
+    padding-right: 8px;
+    border-radius: 5px;
 }
 
 .friend-actions button {
     width: 100px;
     margin-bottom: 5px;
+}
+
+.profile {
+    margin: 0 auto;
+    padding: 20px;
+    max-width: 1100px;
+    text-align: left;
+}
+
+.profile .profile-basic-information {
+    text-align: center;
+}
+
+.profile .profile-basic-information button {
+    width: 100%;
+    margin-top: 10px;
+}
+
+.profile .profile-basic-information img {
+    width: 100%;
+}
+
+.profile .profile-basic-information h3 {
+    color: #9ECC8E;
+}
+
+.profile .profile-main {
+    padding: 20px;
+    padding-top: 0px;
+    background-color: #141413;
+}
+
+.profile .profile-main h3 {
+    color: #727272;
+}
+
+.profile .profile-posts .post-user {
+    text-align: center;
+}
+
+.profile .profile-posts .post-user img {
+    max-width: 100px;
+}
+
+.profile .profile-posts .post-body h4{
+    margin-top: 0;
 }
