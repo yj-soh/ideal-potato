@@ -1,7 +1,8 @@
 'use strict';
 
-const Hapi = require('hapi')
-
+const Hapi = require('hapi');
+var rfr = require('rfr');
+var Db = rfr('app/models/db');
 const server = new Hapi.Server();
 server.connection({ port: 3000 });
 
@@ -16,7 +17,7 @@ server.register(require('inert'), (err) => {
   if (err) {
     throw err;
   }
-  
+
   server.route({
     method: 'GET',
     path: '/{param*}',
