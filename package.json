@@ -10,6 +10,7 @@
   "license": "ISC",
   "dependencies": {
     "bluebird": "^3.3.4",
+    "compute-cosine-similarity": "^1.0.0",
     "hapi": "^13.2.2",
     "inert": "^3.2.0",
     "mysql": "^2.10.2",
