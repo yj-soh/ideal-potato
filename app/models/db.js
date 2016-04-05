@@ -76,8 +76,8 @@ function Db() {
   User.belongsToMany(Game, {through: UserGames});
   Game.belongsToMany(User, {through: UserGames});
 
-  Game.belongsToMany(Tag, {through: 'GameTags'});
-  Tag.belongsToMany(Game, {through: 'GameTags'});
+  Game.belongsToMany(Tag, {through: 'gameTags'});
+  Tag.belongsToMany(Game, {through: 'gameTags'});
 
   this.sync = () => sequelize.sync().then(() => {
     let utf8mb4Query = 'ALTER TABLE sgb.games CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;';
