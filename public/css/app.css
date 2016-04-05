@@ -20,10 +20,18 @@ a {
     cursor: pointer;
 }
 
+input, textarea {
+    color: #141413;
+}
+
 a:hover {
     color: #424242;
     text-decoration: none;
     font-weight: bold;
+}
+
+.align-right {
+    text-align: right;
 }
 
 .navbar-default .steam-brand {
@@ -72,6 +80,10 @@ button:hover {
     background-color: #9ECC8E;
 }
 
+button.submit-button {
+    min-width: 100px;
+}
+
 .big-button {
     font-size: 14pt;
     color: white;
@@ -80,11 +92,19 @@ button:hover {
     border-radius: 5px;
 }
 
-.blue-button {
+button.blue-button {
     background-color: #7294A3;
 }
 
-.blue-button:hover {
+button.blue-button:hover {
+    background-color: #8EBCCC;
+}
+
+button.red-button {
+    background-color: #7294A3;
+}
+
+button.red-button:hover {
     background-color: #8EBCCC;
 }
 
@@ -149,7 +169,7 @@ button:hover {
     width: 100%;
 }
 
-.profile .profile-basic-information h3 {
+.profile .profile-basic-information h4 {
     color: #9ECC8E;
 }
 
@@ -163,14 +183,31 @@ button:hover {
     color: #727272;
 }
 
-.profile .profile-posts .post-user {
+.profile .profile-add-post {
+    margin-bottom: 20px;
+}
+
+.profile .profile-add-post form input {
+    width: 100%;
+}
+
+.profile .profile-add-post form textarea {
+    width: 100%;
+    resize: none;
+}
+
+.profile-posts .post-user {
     text-align: center;
 }
 
-.profile .profile-posts .post-user img {
+.profile-posts .post-user img {
     max-width: 100px;
 }
 
-.profile .profile-posts .post-body h4{
+.profile-posts .post-body h4 {
     margin-top: 0;
+}
+
+.profile-posts .post-time {
+    color: #727272;
 }
