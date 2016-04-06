@@ -2,212 +2,225 @@
 @import url(https://fonts.googleapis.com/css?family=Noto+Sans);
 
 body {
-    padding: 0;
-    font-family: 'Noto Sans', sans-serif;
-    background-color: #21211F;
-    color: white;
+  padding: 0;
+  font-family: 'Noto Sans', sans-serif;
+  background-color: #21211F;
+  color: white;
 }
 
 h1 {
-    color: #9ECC8E;
+  color: #9ECC8E;
 }
 
 a {
-    color: #9ECC8E;
-    font-weight: bold;
-    -webkit-transition: color 0.2s ease;
-    transition: color 0.2s ease;
-    cursor: pointer;
+  color: #9ECC8E;
+  font-weight: bold;
+  -webkit-transition: color 0.2s ease;
+  transition: color 0.2s ease;
+  cursor: pointer;
 }
 
 input, textarea {
-    color: #141413;
+  color: #141413;
 }
 
 a:hover {
-    color: #424242;
-    text-decoration: none;
-    font-weight: bold;
+  color: #424242;
+  text-decoration: none;
+  font-weight: bold;
 }
 
 .align-right {
-    text-align: right;
+  text-align: right;
 }
 
 .navbar-default .steam-brand {
-    color: #9ECC8E;
+  color: #9ECC8E;
 }
 
 .navbar-default .steam-brand:hover {
-    color: #424242;
+  color: #424242;
 }
 
 .navbar-default .steam-brand:focus {
-    color: #9ECC8E;
+  color: #9ECC8E;
 }
 
 .steam-navbar {
-    background-color: #141413;
-    border: 0;
-    border-radius: 0;
+  background-color: #141413;
+  border: 0;
+  border-radius: 0;
 }
 
 .steam-navbar .navbar-right li a {
-    color: white;
-    -webkit-transition: color 0.5s ease;
-    transition: color 0.5s ease;
-    cursor: pointer;
+  color: white;
+  -webkit-transition: color 0.5s ease;
+  transition: color 0.5s ease;
+  cursor: pointer;
 }
 
 .steam-navbar .navbar-right li a:hover {
-    color: #7CA372;
+  color: #7CA372;
 }
 
 .content {
-    text-align: center;
+  text-align: center;
 }
 
 button {
-    color: white;
-    background-color: #7CA372;
-    border: 0;
-    border-radius: 5px;
-    -webkit-transition: background-color 0.5s ease;
-    transition: background-color 0.5s ease;
+  color: white;
+  background-color: #7CA372;
+  border: 0;
+  border-radius: 5px;
+  -webkit-transition: background-color 0.5s ease;
+  transition: background-color 0.5s ease;
 }
 
 button:hover {
-    background-color: #9ECC8E;
+  background-color: #9ECC8E;
 }
 
 button.submit-button {
-    min-width: 100px;
+  min-width: 100px;
 }
 
 .big-button {
-    font-size: 14pt;
-    color: white;
-    background-color: #7CA372;
-    padding: 10px;
-    border-radius: 5px;
+  font-size: 14pt;
+  color: white;
+  background-color: #7CA372;
+  padding: 10px;
+  border-radius: 5px;
 }
 
 button.blue-button {
-    background-color: #7294A3;
+  background-color: #7294A3;
 }
 
 button.blue-button:hover {
-    background-color: #8EBCCC;
+  background-color: #8EBCCC;
 }
 
 button.red-button {
-    background-color: #7294A3;
+  background-color: #AF3C34;
 }
 
 button.red-button:hover {
-    background-color: #8EBCCC;
+  background-color: #FC574B;
 }
 
 .recommended-friends {
-    margin: 0 auto;
-    margin-top: 20px;
-    text-align: left;
-    max-width: 800px;
+  margin: 0 auto;
+  margin-top: 20px;
+  text-align: left;
+  max-width: 800px;
 }
 
 .recommended-friends li {
-    padding: 20px;
-    background-color: #141413;
+  padding: 20px;
+  background-color: #141413;
 }
 
 .recommended-friends .friend-picture img {
-    width: 100px;
+  width: 100px;
 }
 
 .recommended-friends .friend-picture h4 {
-    text-align: center;
+  text-align: center;
 }
 
 .recommended-friends .friend-information {
-    padding-left: 10px;
+  padding-left: 10px;
 }
 
 .recommended-friends .friend-games img {
-    max-width: 150px;
+  max-width: 150px;
 }
 
 .game-tag {
-    font-size: 10pt;
-    background-color: #21211F;
-    padding-left: 8px;
-    padding-right: 8px;
-    border-radius: 5px;
+  font-size: 10pt;
+  background-color: #21211F;
+  padding-left: 8px;
+  padding-right: 8px;
+  border-radius: 5px;
 }
 
 .friend-actions button {
-    width: 100px;
-    margin-bottom: 5px;
+  width: 100px;
+  margin-bottom: 5px;
 }
 
 .profile {
-    margin: 0 auto;
-    padding: 20px;
-    max-width: 1100px;
-    text-align: left;
+  margin: 0 auto;
+  padding: 20px;
+  max-width: 1100px;
+  text-align: left;
 }
 
 .profile .profile-basic-information {
-    text-align: center;
+  text-align: center;
 }
 
 .profile .profile-basic-information button {
-    width: 100%;
-    margin-top: 10px;
+  width: 100%;
+  margin-top: 10px;
 }
 
 .profile .profile-basic-information img {
-    width: 100%;
+  width: 100%;
 }
 
 .profile .profile-basic-information h4 {
-    color: #9ECC8E;
+  color: #9ECC8E;
 }
 
 .profile .profile-main {
-    padding: 20px;
-    padding-top: 0px;
-    background-color: #141413;
+  padding: 20px;
+  padding-top: 0px;
+  background-color: #141413;
 }
 
 .profile .profile-main h3 {
-    color: #727272;
+  color: #727272;
 }
 
 .profile .profile-add-post {
-    margin-bottom: 20px;
+  margin-bottom: 20px;
 }
 
 .profile .profile-add-post form input {
-    width: 100%;
+  width: 100%;
 }
 
 .profile .profile-add-post form textarea {
-    width: 100%;
-    resize: none;
+  width: 100%;
+  resize: none;
 }
 
-.profile-posts .post-user {
-    text-align: center;
+.post-list {
+  margin: 0 auto;
+  margin-top: 20px;
+  text-align: left;
+  max-width: 800px;
+  background-color: #141413;
+  padding: 20px;
 }
 
-.profile-posts .post-user img {
-    max-width: 100px;
+.post {
+  text-align: left;
 }
 
-.profile-posts .post-body h4 {
-    margin-top: 0;
+.post .post-user {
+  text-align: center;
 }
 
-.profile-posts .post-time {
-    color: #727272;
+.post .post-user img {
+  max-width: 100px;
+}
+
+.post .post-body h4 {
+  margin-top: 0;
+}
+
+.post .post-time {
+  color: #727272;
 }
