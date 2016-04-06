@@ -40,6 +40,11 @@ function Db() {
       allowNull: false,
       primaryKey: true
     },
+    index: { // index of the game in the comparison vector
+      type: Sequelize.INTEGER,
+      unique: true,
+      allowNull: false
+    },
     name: {
       type: Sequelize.STRING,
       allowNull: false

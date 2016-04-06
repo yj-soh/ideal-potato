@@ -27,9 +27,10 @@ const playersMapping = {
   singlePlayer: 'single',
   coop: 'coop'
 };
-const gameRecords = parse(FILE_GAMES).map((game) => {
+const gameRecords = parse(FILE_GAMES).map((game, index) => {
   return {
     id: parseInt(game.appid),
+    index: index,
     name: game.title,
     image: null,
     players: playersMapping[game.players]
