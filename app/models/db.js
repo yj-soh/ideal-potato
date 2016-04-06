@@ -73,6 +73,34 @@ function Db() {
       allowNull: false
     }
   });
+
+  const Post = sequelize.define('post', {
+    id: {
+      type: Sequelize.INTEGER,
+      autoIncrement: true,
+      primaryKey: true
+    },
+    content: {
+      type: Sequelize.TEXT,
+      defaultValue: ''
+    },
+    relatedGame: {
+      type: Sequelize.INTEGER,
+      allowNull: false
+    },
+    poster: {
+      type: Sequelize.STRING,
+      allowNull: false
+    }
+  });
+
+  Post.belongsTo(Game, {
+      foreignKey: 'relatedGame'
+  });
+  Post.belongsTo(User, {
+      foreignKey: 'poster'
+  });
+
   User.belongsToMany(Game, {through: UserGames});
   Game.belongsToMany(User, {through: UserGames});
 
