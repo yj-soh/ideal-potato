@@ -126,3 +126,7 @@ jspm_packages
 
 # Optional REPL history
 .node_repl_history
+
+
+# project-specific files
+config/SteamConfig.js
