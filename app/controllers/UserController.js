@@ -38,6 +38,12 @@ Class.registerRoutes = function () {
 
   this.server.route({
     method: 'GET',
+    path: '/{userId}/profile',
+    handler: getUserProfile
+  });
+
+  this.server.route({
+    method: 'GET',
     path: '/{userId}/games',
     handler: getUserGames
   });
@@ -89,6 +95,20 @@ const getUser = function (request, reply) {
   }
   let user = request.auth.credentials.userId;
   reply({success: true, id: user});
+};
+
+const getUserProfile = function (request, reply) {
+  Crawler.getUserProfile(request.params.userId).then(
+    (user) => {
+      if (user.length < 1) {
+        return reply({success: false, error: 'User does not exist.'});
+      }
+      Db.models.post.findAll({where: {poster: request.params.userId}, order: [['createdAt', 'DESC']], include: [Db.models.game]}).then(function (posts) {
+        user[0].posts = posts;
+        reply({success: true, data: user[0]});
+      });
+    }
+  );
 };
 
 const getOwnGames = function (request, reply) {

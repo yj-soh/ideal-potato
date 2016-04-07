@@ -12,6 +12,10 @@ h1 {
   color: #9ECC8E;
 }
 
+input, textarea {
+  color: #141413;
+}
+
 a {
   color: #9ECC8E;
   font-weight: bold;
@@ -20,12 +24,14 @@ a {
   cursor: pointer;
 }
 
-input, textarea {
-  color: #141413;
-}
-
 a:hover {
   color: #424242;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+a:focus {
+  color: #9ECC8E;
   text-decoration: none;
   font-weight: bold;
 }
@@ -92,20 +98,41 @@ button.submit-button {
   border-radius: 5px;
 }
 
-button.blue-button {
-  background-color: #7294A3;
+a.button {
+  text-align: center;
+  font-weight: normal;
+  display: inline-block;
+  padding: 2px;
+  color: white;
+  background-color: #7CA372;
+  border: 0;
+  border-radius: 5px;
+  -webkit-transition: background-color 0.5s ease;
+  transition: background-color 0.5s ease;
 }
 
-button.blue-button:hover {
-  background-color: #8EBCCC;
+a.button:hover {
+  background-color: #9ECC8E;
 }
 
-button.red-button {
-  background-color: #AF3C34;
+.blue-button {
+  background-color: #7294A3 !important;
 }
 
-button.red-button:hover {
-  background-color: #FC574B;
+.blue-button:hover {
+  background-color: #8EBCCC !important;
+}
+
+.red-button {
+  background-color: #AF3C34 !important;
+}
+
+.red-button:hover {
+  background-color: #FC574B !important;
+}
+
+input.search-box {
+  width: 100%;
 }
 
 .recommended-friends {
@@ -144,7 +171,7 @@ button.red-button:hover {
   border-radius: 5px;
 }
 
-.friend-actions button {
+.friend-actions .button {
   width: 100px;
   margin-bottom: 5px;
 }
@@ -160,7 +187,7 @@ button.red-button:hover {
   text-align: center;
 }
 
-.profile .profile-basic-information button {
+.profile .profile-basic-information .button {
   width: 100%;
   margin-top: 10px;
 }
@@ -272,7 +299,7 @@ button.red-button:hover {
   top: 0;
   left: 0;
   width: 100%;
-  height: 2px;
+  height: 5px;
   border-bottom-right-radius: 1px;
   border-top-right-radius: 1px;
 }

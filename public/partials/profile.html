@@ -1,13 +1,16 @@
 <div class="profile" ng-show="isLoggedIn">
-  <div class="row">
+  <div class="row" ng-show="hasError">
+    {{errorMessage}}
+  </div>
+  <div class="row" ng-show="!hasError">
     <div class="col-sm-3 profile-basic-information">
-      <img src="http://cdn.akamai.steamstatic.com/steamcommunity/public/images/avatars/71/71dfa92a550af33b68e4cd4a8672489b30183c6a_full.jpg"></img>
-      <h4>User 1</h4>
-      <button class="blue-button">Add On Steam</button>
-      <button>View Steam Profile</button>
+      <img ng-src="{{user.image}}"></img>
+      <h4>{{user.name}}</h4>
+      <a class="button blue-button">Add On Steam</a>
+      <a class="button" target="_blank" ng-href="https://steamcommunity.com/profiles/{{user.id}}">View Steam Profile</a>
     </div>
     <div class="col-sm-9 profile-main">
-      <div class="profile-add-post">
+      <div class="profile-add-post" ng-show="isOwnProfile">
         <form ng-submit="addPost()">
           <h3>Add New Post</h3>
           <label for="game-list">What game are you playing?</label>
@@ -25,8 +28,6 @@
         </form>
       </div>
       <div class="profile-main-information">
-        <h3>About</h3>
-        <p>No description available.</p>
         <h3>Recently Played</h3>
         <img src="http://cdn.akamai.steamstatic.com/steamcommunity/public/images/apps/745/47ad0815abb1258dd93ce07ac6a908814f043067.jpg">
         <img src="http://cdn.akamai.steamstatic.com/steamcommunity/public/images/apps/745/47ad0815abb1258dd93ce07ac6a908814f043067.jpg">
@@ -36,30 +37,19 @@
         <img src="http://cdn.akamai.steamstatic.com/steamcommunity/public/images/apps/745/47ad0815abb1258dd93ce07ac6a908814f043067.jpg">
         <h3>Posts</h3>
         <ul id="profile-post-list" class="profile-posts media-list">
-          <li class="post media">
-            <a class="post-user media-left">
-              <img class="media-object" src="http://cdn.akamai.steamstatic.com/steamcommunity/public/images/avatars/71/71dfa92a550af33b68e4cd4a8672489b30183c6a_full.jpg"/>
-              <h4>User 1</h4>
-            </a>
+          <li ng-repeat="post in user.posts" class="post media">
+            <span class="post-user media-left">
+              <img class="media-object" ng-src="{{user.image}}"/>
+              <h4>{{user.name}}</h4>
+            </span>
             <div class="post-body media-body">
-              <div class="pull-right post-time">1 hour ago</div>
-              <h4>User1 wants to play</h4>
-              <img src="http://cdn.akamai.steamstatic.com/steamcommunity/public/images/apps/745/47ad0815abb1258dd93ce07ac6a908814f043067.jpg">
+              <div class="pull-right post-time" am-time-ago="post.createdAt"></div>
+              <h4>{{user.name}} wants to play {{post.game.name}}</h4>
+              <a target="_blank" ng-href="http://store.steampowered.com/app/{{post.relatedGame}}/">
+                <img ng-src="http://cdn.akamai.steamstatic.com/steam/apps/{{post.relatedGame}}/header.jpg">
+              </a>
               <br><br>
-              <p>Hey guys! Looking for someone to pwn CS with me. Let's GO!!</p>
-            </div>
-          </li>
-          <li class="post media">
-            <a class="post-user media-left">
-              <img class="media-object" src="http://cdn.akamai.steamstatic.com/steamcommunity/public/images/avatars/71/71dfa92a550af33b68e4cd4a8672489b30183c6a_full.jpg"/>
-              <h4>User 1</h4>
-            </a>
-            <div class="post-body media-body">
-              <div class="pull-right post-time">1 hour ago</div>
-              <h4>User1 wants to play</h4>
-              <img src="http://cdn.akamai.steamstatic.com/steamcommunity/public/images/apps/745/47ad0815abb1258dd93ce07ac6a908814f043067.jpg">
-              <br><br>
-              <p>Hey guys! Looking for someone to pwn CS with me. Let's GO!!</p>
+              <p>{{post.content}}</p>
             </div>
           </li>
         </ul>

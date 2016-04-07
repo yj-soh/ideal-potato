@@ -4,12 +4,16 @@ angular.module('gameApp.controllers')
 
   User.getLoggedInUser().success(function (response) {
     $scope.isLoggedIn = response.success;
+    $scope.loggedInUser = response.id;
     Login.isLoggedIn = response.success;
     Login.userId = response.success ? response.id : '';
   });
 })
-.controller('ProfileController', function ($scope, $routeParams, $window, $anchorScroll, Game, Login, Post) {
+.controller('ProfileController', function ($scope, $routeParams, $window, $anchorScroll, Game, User, Login, Post) {
   'use strict';
+
+  $scope.hasError = true;
+  $scope.isOwnProfile = false;
 
   $anchorScroll();
 
@@ -17,6 +21,19 @@ angular.module('gameApp.controllers')
 
   Game.getAllGames().success(function (response) {
     $scope.gameList = response;
+  });
+
+  User.getProfile($routeParams.user).success(function (response) {
+    if (response.success) {
+      $scope.user = response.data;
+      $scope.hasError = false;
+
+      if (Login.userId === $routeParams.user) {
+        $scope.isOwnProfile =  true;
+      }
+    } else {
+      $scope.errorMessage = response.error;
+    }
   });
 
   $scope.addPost = function () {

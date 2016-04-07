@@ -48,6 +48,13 @@ angular.module('gameApp.services')
     });
   };
 
+  User.getProfile = function (userId) {
+    return $http({
+      method: 'GET',
+      url: '/api/user/' + userId + '/profile'
+    });
+  };
+
   return User;
 })
 .factory('Login', function () {

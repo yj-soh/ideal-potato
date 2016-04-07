@@ -36,7 +36,6 @@ const getAllPosts = function (request, reply) {
         for (var i = 0; i < posts.length; i++) {
           posts[i].dataValues.user = user[i];
         }
-        console.log(posts);
         reply(posts);
       }
     );
