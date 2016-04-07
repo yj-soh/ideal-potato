@@ -11,6 +11,8 @@ const getProfile = (apiKey, userIds) =>
     `http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key=${apiKey}&steamids=${userIds}`;
 const getOwnedGames = (apiKey, userId, includeInfo) =>
     `http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=${apiKey}&steamid=${userId}&include_appinfo=${includeInfo ? 1 : 0}&include_played_free_games=1&format=json`;
+const getFollowedGames = (userId) =>
+    `http://steamcommunity.com/profiles/${userId}/followedgames`;
 const getWishlistGames = (userId) =>
     `http://steamcommunity.com/profiles/${userId}/wishlist/`;
 const getFriends = (apiKey, userId) =>
@@ -56,6 +58,17 @@ Class.getUserOwnedGames = function (userId, includeInfo) {
             }
             return gameData;
           }) : false);
+};
+
+Class.getUserFollowedGames = function (userId) {
+  return processHtmlRequest(getFollowedGames(userId))
+      .then(($) => $('.gameListRow')
+          .map((idx, ele) => $(ele).attr('data-appid')).get()
+          .map((id) => {
+            return {
+              id: id
+            }
+          }));
 };
 
 Class.getUserWishlistGames = function (userId) {
