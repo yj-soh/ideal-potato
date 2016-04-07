@@ -40,6 +40,10 @@ a:focus {
   text-align: right;
 }
 
+.error {
+  color: #AF3C34;
+}
+
 .navbar-default .steam-brand {
   color: #9ECC8E;
 }

@@ -23,6 +23,7 @@
           <textarea class="msd-elastic" ng-model="newPost.content" placeholder="Let's pwn this game together folks!"></textarea>
           <br><br>
           <div class="align-right">
+            <p class="error" ng-show="newPost.error">Error: {{newPost.error}}</p>
             <button class="red-button submit-button">Post</button>
           </div>
         </form>
@@ -44,7 +45,7 @@
             </span>
             <div class="post-body media-body">
               <div class="pull-right post-time" am-time-ago="post.createdAt"></div>
-              <h4>{{user.name}} wants to play {{post.game.name}}</h4>
+              <h4>{{user.name}} is playing {{post.game.name}}</h4>
               <a target="_blank" ng-href="http://store.steampowered.com/app/{{post.relatedGame}}/">
                 <img ng-src="http://cdn.akamai.steamstatic.com/steam/apps/{{post.relatedGame}}/header.jpg">
               </a>

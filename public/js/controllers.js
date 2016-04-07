@@ -38,9 +38,12 @@ angular.module('gameApp.controllers')
 
   $scope.addPost = function () {
     Post.add($scope.newPost).success(function (response) {
-      if (response.success)
+      if (response.success) {
         // focus on post list in profile
         $window.location.href = '#/profile#profile-post-list';
+      } else {
+        $scope.newPost.error = response.error;
+      }
     });
   };
 })
