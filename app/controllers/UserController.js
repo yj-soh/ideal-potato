@@ -120,12 +120,14 @@ const getUserGames = function (request, reply) {
   Promise.all([
     Crawler.getUserOwnedGames(request.params.userId, false),
     Crawler.getUserFollowedGames(request.params.userId),
-    Crawler.getUserWishlistGames(request.params.userId)
+    Crawler.getUserWishlistGames(request.params.userId),
+    Crawler.getUserReviewedGames(request.params.userId)
   ]).then(
       (games) => games[0] ? reply({
         owned: games[0],
         folllowed: games[1],
-        wishlist: games[2]
+        wishlist: games[2],
+        reviewed: games[3]
       }) : reply({private: true}),
       (err) => reply(err)
   );
