@@ -21,6 +21,11 @@ Class.registerRoutes = function () {
   this.server.route({
     method: 'GET',
     path: '/',
+    config: {
+      auth: {
+        mode: 'try'
+      }
+    },
     handler: getUser
   });
 
@@ -54,8 +59,11 @@ Class.registerRoutes = function () {
 };
 
 const getUser = function (request, reply) {
+  if (!request.auth.isAuthenticated) {
+    return reply({success: false});
+  }
   let user = request.auth.credentials.userId;
-  reply('You are ' + user + '!');
+  reply({success: true, id: user});
 };
 
 const login = function (request, reply) {
@@ -84,6 +92,9 @@ const verify = function (request, reply) {
     request.cookieAuth.set({
       userId: id
     });
+
+    // create new user if one doesn't exist
+    Db.models.user.upsert({id: id});
   }
 
   reply.redirect('/');

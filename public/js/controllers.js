@@ -1,16 +1,10 @@
 angular.module('gameApp.controllers')
-.controller('MainController', function ($scope) {
+.controller('MainController', function ($scope, User) {
   'use strict'
 
-  $scope.isLoggedIn = false;
-
-  $scope.login = function () {
-    $scope.isLoggedIn = true;
-  };
-
-  $scope.logout = function () {
-    $scope.isLoggedIn = false;
-  };
+  User.getLoggedInUser().success(function (response) {
+    $scope.isLoggedIn = response.success;
+  });
 })
 .controller('ProfileController', function ($scope, Game) {
   'use strict';

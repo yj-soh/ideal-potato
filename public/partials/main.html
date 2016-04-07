@@ -1,10 +1,18 @@
 <div class="row">
-    <div class="col-xs-12">
+    <div class="col-xs-12" ng-show="!isLoggedIn">
         <h1>Steam Game Buddies</h1>
         <p>Find people who love the same awesome games that you do!</p>
         <br>
-        <a ng-click="login()">
+        <a href="/api/user/login">
             <img src="http://steamcommunity-a.akamaihd.net/public/images/signinthroughsteam/sits_large_noborder.png">
         </a>
+    </div>
+    <div class="col-xs-12" ng-show="isLoggedIn">
+      <h1>Find Friends</h1>
+      <p>Find people who love the same awesome games that you do!</p>
+      <a href="#/findfriends">Let's Go!</a>
+      <h1>Browse Posts</h1>
+      <p>Checkout the latest games people are playing... and join them!</p>
+      <a href="#/posts">Let's Go!</a>
     </div>
 </div>

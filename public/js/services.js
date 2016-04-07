@@ -12,4 +12,18 @@ angular.module('gameApp.services')
   };
 
   return Game;
+})
+.factory('User', function ($http) {
+  'use strict';
+
+  function User() {}
+
+  User.getLoggedInUser = function () {
+    return $http({
+      method: 'GET',
+      url: '/api/user'
+    });
+  };
+
+  return User;
 });
