@@ -3,6 +3,7 @@
 const rfr = require('rfr');
 const openid = require('openid');
 const Db = rfr('app/models/db');
+const Crawler = rfr('app/Crawler');
 
 const steamOpenIdUrl = 'http://steamcommunity.com/openid';
 
@@ -27,6 +28,30 @@ Class.registerRoutes = function () {
       }
     },
     handler: getUser
+  });
+
+  this.server.route({
+    method: 'GET',
+    path: '/games',
+    handler: getOwnGames
+  });
+
+  this.server.route({
+    method: 'GET',
+    path: '/{userId}/games',
+    handler: getUserGames
+  });
+
+  this.server.route({
+    method: 'GET',
+    path: '/friends',
+    handler: getOwnFriends
+  });
+
+  this.server.route({
+    method: 'GET',
+    path: '/{userId}/friends',
+    handler: getUserFriends
   });
 
   this.server.route({
@@ -66,6 +91,30 @@ const getUser = function (request, reply) {
   reply({success: true, id: user});
 };
 
+const getOwnGames = function (request, reply) {
+  request.params.userId = request.auth.credentials.userId;
+  getUserGames(request, reply);
+};
+
+const getUserGames = function (request, reply) {
+  Crawler.getUserOwnedGames(request.params.userId, false).then(
+      (games) => reply(games || {private: true}),
+      (err) => reply(err)
+  );
+};
+
+const getOwnFriends = function (request, reply) {
+  request.params.userId = request.auth.credentials.userId;
+  getUserFriends(request, reply);
+};
+
+const getUserFriends = function (request, reply) {
+  Crawler.getUserFriends(request.params.userId).then(
+      (friends) => reply(friends || {private: true}),
+      (err) => reply(err)
+  );
+};
+
 const login = function (request, reply) {
   if (request.auth.isAuthenticated) {
     return reply.redirect('/');
@@ -103,6 +152,10 @@ const verify = function (request, reply) {
 const logout = function (request, reply) {
   request.cookieAuth.clear();
   reply.redirect('/');
+};
+
+const getUserFromSteam = function (userId) {
+
 };
 
 exports.register = function (server, options, next) {
