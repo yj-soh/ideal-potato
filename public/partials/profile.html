@@ -1,24 +1,23 @@
-<div class="profile">
+<div class="profile" ng-show="isLoggedIn">
   <div class="row">
     <div class="col-sm-3 profile-basic-information">
       <img src="http://cdn.akamai.steamstatic.com/steamcommunity/public/images/avatars/71/71dfa92a550af33b68e4cd4a8672489b30183c6a_full.jpg"></img>
       <h4>User 1</h4>
-      <button class="red-button">Add New Post</button>
       <button class="blue-button">Add On Steam</button>
       <button>View Steam Profile</button>
     </div>
     <div class="col-sm-9 profile-main">
       <div class="profile-add-post">
-        <form>
+        <form ng-submit="addPost()">
           <h3>Add New Post</h3>
           <label for="game-list">What game are you playing?</label>
-          <input type="text" placeholder="Example: Dota" list="game-list" ng-model="newPostForm.gameName"></input>
+          <input type="text" placeholder="Example: Dota" list="game-list" ng-model="newPost.gameName" ng-required="true"></input>
           <datalist id="game-list">
             <option ng-repeat="game in gameList" value="{{game.name}}"></option>
           </datalist>
           <br><br>
           <label>Say something! (If you want)</label>
-          <textarea class="msd-elastic" ng-model="newPostForm.description" placeholder="Let's pwn this game together folks!"></textarea>
+          <textarea class="msd-elastic" ng-model="newPost.content" placeholder="Let's pwn this game together folks!"></textarea>
           <br><br>
           <div class="align-right">
             <button class="red-button submit-button">Post</button>
@@ -36,7 +35,7 @@
         <img src="http://cdn.akamai.steamstatic.com/steamcommunity/public/images/apps/745/47ad0815abb1258dd93ce07ac6a908814f043067.jpg">
         <img src="http://cdn.akamai.steamstatic.com/steamcommunity/public/images/apps/745/47ad0815abb1258dd93ce07ac6a908814f043067.jpg">
         <h3>Posts</h3>
-        <ul class="profile-posts media-list">
+        <ul id="profile-post-list" class="profile-posts media-list">
           <li class="post media">
             <a class="post-user media-left">
               <img class="media-object" src="http://cdn.akamai.steamstatic.com/steamcommunity/public/images/avatars/71/71dfa92a550af33b68e4cd4a8672489b30183c6a_full.jpg"/>

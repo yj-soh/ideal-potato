@@ -255,7 +255,7 @@ button.red-button:hover {
   -o-transition: width 350ms;
   transition: width 350ms;
 
-  display: none;
+  display: block;
 
   background: #9ECC8E;
   position: fixed;
@@ -286,7 +286,7 @@ button.red-button:hover {
 }
 
 #loading-bar-spinner {
-  display: block;
+  display: none;
   position: fixed;
   z-index: 10002;
   top: 20px;

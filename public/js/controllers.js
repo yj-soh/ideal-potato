@@ -1,15 +1,29 @@
 angular.module('gameApp.controllers')
-.controller('MainController', function ($scope, User) {
+.controller('MainController', function ($scope, User, Login) {
   'use strict'
 
   User.getLoggedInUser().success(function (response) {
     $scope.isLoggedIn = response.success;
+    Login.isLoggedIn = response.success;
+    Login.userId = response.success ? response.id : '';
   });
 })
-.controller('ProfileController', function ($scope, Game) {
+.controller('ProfileController', function ($scope, $window, $anchorScroll, Game, Login, Post) {
   'use strict';
+
+  $anchorScroll();
+
+  if (!Login.isLoggedIn) return;
 
   Game.getAllGames().success(function (response) {
     $scope.gameList = response;
   });
+
+  $scope.addPost = function () {
+    Post.add($scope.newPost).success(function (response) {
+      if (response.success)
+        // focus on post list in profile
+        $window.location.href = '#/profile#profile-post-list';
+    });
+  };
 });
