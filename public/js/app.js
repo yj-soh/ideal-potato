@@ -9,7 +9,8 @@ var gameApp = angular.module('gameApp', [
   'gameApp.controllers',
   'monospaced.elastic',
   'angular-loading-bar',
-  'angularMoment'
+  'angularMoment',
+  'ngAnimate'
 ]);
 
 gameApp.config(function($routeProvider) {
@@ -22,7 +23,7 @@ gameApp.config(function($routeProvider) {
   when('/findfriends', {
     templateUrl: 'partials/findfriends.html'
   }).
-  when('/profile', {
+  when('/profile/:user', {
     templateUrl: 'partials/profile.html',
     controller: 'ProfileController'
   }).

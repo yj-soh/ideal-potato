@@ -2,6 +2,7 @@
 
 const rfr = require('rfr');
 const Db = rfr('app/models/db');
+const Crawler = rfr('app/Crawler');
 
 function PostController(server, options) {
   this.server = server;
@@ -24,8 +25,21 @@ Class.registerRoutes = function () {
 };
 
 const getAllPosts = function (request, reply) {
-  Db.models.post.findAll({order: [['createdAt', 'DESC']], include: [Db.models.user, Db.models.game]}).then(function (posts) {
-    reply(posts);
+  Db.models.post.findAll({order: [['createdAt', 'DESC']], include: [Db.models.game]}).then(function (posts) {
+    var userIds = [];
+    for (var i = 0; i < posts.length; i++) {
+      userIds.push(posts[i].poster);
+    }
+
+    Crawler.getUserProfile(userIds).then(
+      (user) => {
+        for (var i = 0; i < posts.length; i++) {
+          posts[i].dataValues.user = user[i];
+        }
+        console.log(posts);
+        reply(posts);
+      }
+    );
   });
 };
 

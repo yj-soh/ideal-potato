@@ -8,7 +8,7 @@ angular.module('gameApp.controllers')
     Login.userId = response.success ? response.id : '';
   });
 })
-.controller('ProfileController', function ($scope, $window, $anchorScroll, Game, Login, Post) {
+.controller('ProfileController', function ($scope, $routeParams, $window, $anchorScroll, Game, Login, Post) {
   'use strict';
 
   $anchorScroll();
