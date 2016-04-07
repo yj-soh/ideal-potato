@@ -27,22 +27,42 @@ Class.registerRoutes = function () {
   this.server.route({
     method: 'GET',
     path: '/login',
+    config: {
+      auth: {
+        mode: 'try'
+      }
+    },
     handler: login
   });
 
   this.server.route({
     method: 'GET',
     path: '/login/verify',
+    config: {
+      auth: {
+        mode: 'try'
+      }
+    },
     handler: verify
+  });
+
+  this.server.route({
+    method: 'GET',
+    path: '/logout',
+    handler: logout
   });
 };
 
 const getUser = function (request, reply) {
-  let r = 'test';
-  reply(r);
+  let user = request.auth.credentials.userId;
+  reply('You are ' + user + '!');
 };
 
 const login = function (request, reply) {
+  if (request.auth.isAuthenticated) {
+    return reply.redirect('/');
+  }
+
   this.relyingParty.authenticate(steamOpenIdUrl, false, function (err, authUrl) {
     if (err) {
       console.log(err);
@@ -54,13 +74,23 @@ const login = function (request, reply) {
 };
 
 const verify = function (request, reply) {
+  if (request.auth.isAuthenticated) {
+    return reply.redirect('/');
+  }
+
   let claimedId = request.query['openid.claimed_id'];
   if (claimedId) {
     let id = claimedId.replace(steamOpenIdUrl + '/id/', '');
-
-    console.log('Do something with this:', id);
+    request.cookieAuth.set({
+      userId: id
+    });
   }
 
+  reply.redirect('/');
+};
+
+const logout = function (request, reply) {
+  request.cookieAuth.clear();
   reply.redirect('/');
 };
 
