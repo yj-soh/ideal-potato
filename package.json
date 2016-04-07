@@ -10,6 +10,7 @@
   "license": "ISC",
   "dependencies": {
     "bluebird": "^3.3.4",
+    "cheerio": "^0.20.0",
     "compute-cosine-similarity": "^1.0.0",
     "hapi": "^13.2.2",
     "hapi-auth-cookie": "^6.1.1",

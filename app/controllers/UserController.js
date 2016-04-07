@@ -117,8 +117,16 @@ const getOwnGames = function (request, reply) {
 };
 
 const getUserGames = function (request, reply) {
-  Crawler.getUserOwnedGames(request.params.userId, false).then(
-      (games) => reply(games || {private: true}),
+  Promise.all([
+    Crawler.getUserOwnedGames(request.params.userId, false),
+    Crawler.getUserFollowedGames(request.params.userId),
+    Crawler.getUserWishlistGames(request.params.userId)
+  ]).then(
+      (games) => games[0] ? reply({
+        owned: games[0],
+        folllowed: games[1],
+        wishlist: games[2]
+      }) : reply({private: true}),
       (err) => reply(err)
   );
 };
