@@ -6,6 +6,8 @@ const rfr = require('rfr');
 
 const config = rfr('config/SteamConfig');
 
+const getProfile = (apiKey, userIds) =>
+    `http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key=${apiKey}&steamids=${userIds}`;
 const getOwnedGames = (apiKey, userId, includeInfo) =>
     `http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=${apiKey}&steamid=${userId}&include_appinfo=${includeInfo ? 1 : 0}&include_played_free_games=1&format=json`;
 const getFriends = (apiKey, userId) =>
@@ -16,6 +18,21 @@ function Crawler() {
 }
 
 const Class = Crawler.prototype;
+
+Class.getUserProfile = function (userIds) {
+  return processJsonRequest(getProfile(this.apiKey, Array.isArray(userIds) ? userIds.join(',') : userIds))
+      .then((json) => json.response.players.map((user) => {
+        return {
+          id: user.steamid,
+          name: user.personaname,
+          url: user.profileurl,
+          image: user.avatarfull,
+          lastOnline: new Date(user.lastlogoff * 1000),
+          isOnline: user.personastate !== 0,
+          isPrivate: communityvisibilitystate === 1
+        };
+      }));
+};
 
 Class.getUserOwnedGames = function (userId, includeInfo) {
   return processJsonRequest(getOwnedGames(this.apiKey, userId, includeInfo))
