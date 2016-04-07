@@ -6,14 +6,16 @@ var Db = rfr('app/models/db');
 const server = new Hapi.Server();
 server.connection({port: 3000});
 
-server.start((err) => {
+Db.sync().then(() => {
+  return server.start();
+}).then((err) => {
   if (err) {
     throw err;
   }
   console.log('Server running at:', server.info.uri);
 });
 
-server.register(require('inert'), (err) => {
+server.register(require('inert')).then((err) => {
   if (err) {
     throw err;
   }

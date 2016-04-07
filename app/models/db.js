@@ -121,7 +121,6 @@ function Db() {
         console.log(err);
       }
   );
-  this.sync();
 
   this.models = {
     'user': User,
