@@ -8,7 +8,8 @@ var gameApp = angular.module('gameApp', [
   'ngRoute',
   'gameApp.controllers',
   'monospaced.elastic',
-  'angular-loading-bar'
+  'angular-loading-bar',
+  'angularMoment'
 ]);
 
 gameApp.config(function($routeProvider) {
@@ -26,7 +27,8 @@ gameApp.config(function($routeProvider) {
     controller: 'ProfileController'
   }).
   when('/posts', {
-    templateUrl: 'partials/posts.html'
+    templateUrl: 'partials/posts.html',
+    controller: 'PostsController'
   }).
   otherwise({
     redirectTo: '/'

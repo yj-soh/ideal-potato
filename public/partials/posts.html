@@ -1,28 +1,15 @@
 <ul class="post-list media-list" ng-show="isLoggedIn">
-  <li class="post media">
+  <li ng-repeat="post in posts" class="post media">
       <a class="post-user media-left">
           <img class="media-object" src="http://cdn.akamai.steamstatic.com/steamcommunity/public/images/avatars/71/71dfa92a550af33b68e4cd4a8672489b30183c6a_full.jpg"/>
           <h4>User 1</h4>
       </a>
       <div class="post-body media-body">
-          <div class="pull-right post-time">1 hour ago</div>
-          <h4>User1 wants to play</h4>
-          <img src="http://cdn.akamai.steamstatic.com/steamcommunity/public/images/apps/745/47ad0815abb1258dd93ce07ac6a908814f043067.jpg">
+          <div class="pull-right post-time" am-time-ago="post.createdAt"></div>
+          <h4>User1 wants to play {{post.game.name}}</h4>
+          <img ng-src="http://cdn.akamai.steamstatic.com/steam/apps/{{post.relatedGame}}/header.jpg">
           <br><br>
-          <p>Hey guys! Looking for someone to pwn CS with me. Let's GO!!</p>
-      </div>
-  </li>
-  <li class="post media">
-      <a class="post-user media-left">
-          <img class="media-object" src="http://cdn.akamai.steamstatic.com/steamcommunity/public/images/avatars/71/71dfa92a550af33b68e4cd4a8672489b30183c6a_full.jpg"/>
-          <h4>User 1</h4>
-      </a>
-      <div class="post-body media-body">
-          <div class="pull-right post-time">1 hour ago</div>
-          <h4>User1 wants to play</h4>
-          <img src="http://cdn.akamai.steamstatic.com/steamcommunity/public/images/apps/745/47ad0815abb1258dd93ce07ac6a908814f043067.jpg">
-          <br><br>
-          <p>Hey guys! Looking for someone to pwn CS with me. Let's GO!!</p>
+          <p>{{post.content}}</p>
       </div>
   </li>
 </ul>

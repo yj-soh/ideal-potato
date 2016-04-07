@@ -26,4 +26,13 @@ angular.module('gameApp.controllers')
         $window.location.href = '#/profile#profile-post-list';
     });
   };
+})
+.controller('PostsController', function ($scope, Post, Login) {
+  'use strict';
+
+  if (!Login.isLoggedIn) return;
+
+  Post.getAllPosts().success(function (response) {
+    $scope.posts = response;
+  });
 });

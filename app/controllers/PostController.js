@@ -13,7 +13,7 @@ const Class = PostController.prototype;
 Class.registerRoutes = function () {
   this.server.route([{
       method: 'GET',
-      path: '/',
+      path: '/all',
       handler: getAllPosts
     }, {
       method: 'POST',
@@ -24,7 +24,7 @@ Class.registerRoutes = function () {
 };
 
 const getAllPosts = function (request, reply) {
-  Db.models.post.findAll({order: [['createdAt', 'DESC']], include: [Db.models.user]}).then(function (posts) {
+  Db.models.post.findAll({order: [['createdAt', 'DESC']], include: [Db.models.user, Db.models.game]}).then(function (posts) {
     reply(posts);
   });
 };

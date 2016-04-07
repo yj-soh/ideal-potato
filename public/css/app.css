@@ -207,6 +207,11 @@ button.red-button:hover {
 
 .post {
   text-align: left;
+  margin-bottom: 50px;
+}
+
+.post:last-child {
+  margin-bottom: 0px;
 }
 
 .post .post-user {
@@ -219,6 +224,10 @@ button.red-button:hover {
 
 .post .post-body h4 {
   margin-top: 0;
+}
+
+.post .post-body img {
+  max-width: 155px;
 }
 
 .post .post-time {

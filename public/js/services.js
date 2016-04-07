@@ -18,6 +18,13 @@ angular.module('gameApp.services')
 
   function Post() {}
 
+  Post.getAllPosts = function () {
+    return $http({
+      method: 'GET',
+      url: 'api/post/all'
+    });
+  };
+
   Post.add = function (postData) {
     return $http({
       method: 'POST',
