@@ -1,13 +1,12 @@
 'use strict';
 
 const Hapi = require('hapi');
-var rfr = require('rfr');
-var Db = rfr('app/models/db');
+const rfr = require('rfr');
+const Db = rfr('app/models/db');
+const config = rfr('config/ServerConfig');
+
 const server = new Hapi.Server();
-server.connection({
-  port: 3000,
-  uri: 'http://192.168.33.10:3000'
-});
+server.connection(config.server);
 
 Db.sync().then(() => server.start()).then((err) => {
   if (err) {

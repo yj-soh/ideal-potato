@@ -2,7 +2,7 @@
 
 const Sequelize = require('sequelize');
 const rfr = require('rfr');
-const config = rfr('app/models/config');
+const config = rfr('config/DbConfig');
 
 function Db() {
   const sequelize = new Sequelize(
