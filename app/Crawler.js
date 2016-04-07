@@ -62,19 +62,36 @@ Class.getUserFriends = function (userId) {
           false);
 };
 
-const processJsonRequest = (url) =>
+const resolveRedirects = (url) =>
     new Promise((resolve, reject) => {
       http.get(url, (res) => {
+        if (res.statusCode >= 300 &&
+            res.statusCode < 400 &&
+            res.headers.location) {
+          resolveRedirects(res.headers.location).then(resolve);
+        } else {
+          resolve(res);
+        }
+      }, (err) => {
+        reject(err);
+      })
+    });
+
+const processRequest = (url, f) =>
+    new Promise((resolve, reject) => {
+      resolveRedirects(url).then((res) => {
         res.setEncoding('utf8');
 
         let json = '';
         res.on('data', (chunk) => {
           json += chunk;
         });
-        res.on('end', () => resolve(JSON.parse(json)));
+        res.on('end', () => resolve(f(json)));
       }, (err) => {
         reject(err)
       });
     });
+
+const processJsonRequest = (url) => processRequest(url, JSON.parse);
 
 module.exports = new Crawler();
