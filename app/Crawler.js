@@ -15,6 +15,8 @@ const getFollowedGames = (userId) =>
     `http://steamcommunity.com/profiles/${userId}/followedgames`;
 const getWishlistGames = (userId) =>
     `http://steamcommunity.com/profiles/${userId}/wishlist/`;
+const getReviewedGames = (userId, page) =>
+    `http://steamcommunity.com/profiles/${userId}/reviews/?p=${page}`;
 const getFriends = (apiKey, userId) =>
     `http://api.steampowered.com/ISteamUser/GetFriendList/v0001/?key=${apiKey}&steamid=${userId}&relationship=friend`;
 
@@ -80,6 +82,33 @@ Class.getUserWishlistGames = function (userId) {
               id: id
             }
           }));
+};
+
+Class.getUserReviewedGames = function (userId) {
+  let processPage = (userId, page) =>
+      processHtmlRequest(getReviewedGames(userId, page)).then(($) => {
+        let ids = $('.leftcol')
+            .map((idx, ele) => $(ele).find('a').attr('href').replace('http://steamcommunity.com/app/', '')).get();
+        let recommended = $('.title')
+            .map((idx, ele) => $(ele).find('a').text() === 'Recommended').get();
+
+        let games = ids.map((id, idx) => {
+          return {
+            id: id,
+            isPositive: recommended[idx]
+          };
+        });
+
+        let pages = $('.workshopBrowsePagingInfo').text().match(/\-(\d+)\sof\s(\d+)/);
+        if (pages[1] !== pages[2]) {
+          return processPage(userId, page + 1).then((nextPageGames) => games.concat(nextPageGames));
+        }
+
+        return games;
+      });
+
+  return processPage(userId, 1);
+
 };
 
 Class.getUserFriends = function (userId) {
