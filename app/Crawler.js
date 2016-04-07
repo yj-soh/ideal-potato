@@ -68,7 +68,7 @@ Class.getUserFollowedGames = function (userId) {
           .map((idx, ele) => $(ele).attr('data-appid')).get()
           .map((id) => {
             return {
-              id: id
+              id: parseInt(id)
             }
           }));
 };
@@ -79,7 +79,7 @@ Class.getUserWishlistGames = function (userId) {
           .map((idx, ele) => $(ele).attr('id').replace('game_', '')).get()
           .map((id) => {
             return {
-              id: id
+              id: parseInt(id)
             }
           }));
 };
@@ -94,7 +94,7 @@ Class.getUserReviewedGames = function (userId) {
 
         let games = ids.map((id, idx) => {
           return {
-            id: id,
+            id: parseInt(id),
             isPositive: recommended[idx]
           };
         });
@@ -138,9 +138,9 @@ const processRequest = (url, f) =>
       resolveRedirects(url).then((res) => {
         res.setEncoding('utf8');
 
-        let json = '';
+        let data = '';
         res.on('data', (chunk) => {
-          json += chunk;
+          data += chunk;
         });
         res.on('end', () => resolve(f(json)));
       }, (err) => {
