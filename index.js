@@ -4,14 +4,16 @@ const Hapi = require('hapi');
 var rfr = require('rfr');
 var Db = rfr('app/models/db');
 const server = new Hapi.Server();
-server.connection({port: 3000});
+server.connection({
+  port: 3000,
+  uri: 'http://192.168.33.10:3000'
+});
 
-Db.sync().then(() => {
-  return server.start();
-}).then((err) => {
+Db.sync().then(() => server.start()).then((err) => {
   if (err) {
     throw err;
   }
+
   console.log('Server running at:', server.info.uri);
 });
 
@@ -63,4 +65,4 @@ server.register({
     console.log('Unable to register PostController');
     throw err;
   }
-})
+});
