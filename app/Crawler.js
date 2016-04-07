@@ -29,7 +29,7 @@ Class.getUserProfile = function (userIds) {
           image: user.avatarfull,
           lastOnline: new Date(user.lastlogoff * 1000),
           isOnline: user.personastate !== 0,
-          isPrivate: communityvisibilitystate === 1
+          isPrivate: user.communityvisibilitystate === 1
         };
       }));
 };
