@@ -7,7 +7,8 @@ angular.module('gameApp.controllers', ['gameApp.services']);
 var gameApp = angular.module('gameApp', [
   'ngRoute',
   'gameApp.controllers',
-  'monospaced.elastic'
+  'monospaced.elastic',
+  'angular-loading-bar'
 ]);
 
 gameApp.config(function($routeProvider) {
