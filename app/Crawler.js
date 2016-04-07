@@ -1,5 +1,6 @@
 'use strict';
 
+const cheerio = require('cheerio');
 const Promise = require('bluebird');
 const http = require('http');
 const rfr = require('rfr');
@@ -10,6 +11,8 @@ const getProfile = (apiKey, userIds) =>
     `http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key=${apiKey}&steamids=${userIds}`;
 const getOwnedGames = (apiKey, userId, includeInfo) =>
     `http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=${apiKey}&steamid=${userId}&include_appinfo=${includeInfo ? 1 : 0}&include_played_free_games=1&format=json`;
+const getWishlistGames = (userId) =>
+    `http://steamcommunity.com/profiles/${userId}/wishlist/`;
 const getFriends = (apiKey, userId) =>
     `http://api.steampowered.com/ISteamUser/GetFriendList/v0001/?key=${apiKey}&steamid=${userId}&relationship=friend`;
 
@@ -55,6 +58,17 @@ Class.getUserOwnedGames = function (userId, includeInfo) {
           }) : false);
 };
 
+Class.getUserWishlistGames = function (userId) {
+  return processHtmlRequest(getWishlistGames(userId))
+      .then(($) => $('.wishlistRow')
+          .map((idx, ele) => $(ele).attr('id').replace('game_', '')).get()
+          .map((id) => {
+            return {
+              id: id
+            }
+          }));
+};
+
 Class.getUserFriends = function (userId) {
   return processJsonRequest(getFriends(this.apiKey, userId))
       .then((json) => json.friendslist ?
@@ -93,5 +107,6 @@ const processRequest = (url, f) =>
     });
 
 const processJsonRequest = (url) => processRequest(url, JSON.parse);
+const processHtmlRequest = (url) => processRequest(url, cheerio.load);
 
 module.exports = new Crawler();
