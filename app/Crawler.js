@@ -8,6 +8,8 @@ const config = rfr('config/SteamConfig');
 
 const getOwnedGames = (apiKey, userId, includeInfo) =>
     `http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=${apiKey}&steamid=${userId}&include_appinfo=${includeInfo ? 1 : 0}&include_played_free_games=1&format=json`;
+const getFriends = (apiKey, userId) =>
+    `http://api.steampowered.com/ISteamUser/GetFriendList/v0001/?key=${apiKey}&steamid=${userId}&relationship=friend`;
 
 function Crawler() {
   this.apiKey = config.apiKey;
@@ -34,6 +36,13 @@ Class.getUserOwnedGames = function (userId, includeInfo) {
             }
             return gameData;
           }) : false);
+};
+
+Class.getUserFriends = function (userId) {
+  return processJsonRequest(getFriends(this.apiKey, userId))
+      .then((json) => json.friendslist ?
+          json.friendslist.friends.map((friend) => friend.steamid) :
+          false);
 };
 
 const processJsonRequest = (url) =>

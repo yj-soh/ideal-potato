@@ -44,6 +44,18 @@ Class.registerRoutes = function () {
 
   this.server.route({
     method: 'GET',
+    path: '/friends',
+    handler: getOwnFriends
+  });
+
+  this.server.route({
+    method: 'GET',
+    path: '/{userId}/friends',
+    handler: getUserFriends
+  });
+
+  this.server.route({
+    method: 'GET',
     path: '/login',
     config: {
       auth: {
@@ -85,8 +97,22 @@ const getOwnGames = function (request, reply) {
 };
 
 const getUserGames = function (request, reply) {
-  let games = Crawler.getUserOwnedGames(request.params.userId, false);
-  reply(games || {private: true});
+  Crawler.getUserOwnedGames(request.params.userId, false).then(
+      (games) => reply(games || {private: true}),
+      (err) => reply(err)
+  );
+};
+
+const getOwnFriends = function (request, reply) {
+  request.params.userId = request.auth.credentials.userId;
+  getUserFriends(request, reply);
+};
+
+const getUserFriends = function (request, reply) {
+  Crawler.getUserFriends(request.params.userId).then(
+      (friends) => reply(friends || {private: true}),
+      (err) => reply(err)
+  );
 };
 
 const login = function (request, reply) {
