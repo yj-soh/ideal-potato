@@ -1,6 +1,6 @@
 'use strict';
 
-function UserController (server, options) {
+function UserController(server, options) {
   this.server = server;
   this.options = options;
 }
@@ -12,12 +12,12 @@ Class.registerRoutes = function () {
     method: 'GET',
     path: '/',
     handler: getUser
-  })
+  });
 };
 
 const getUser = function (request, reply) {
   let r = 'test';
-  reply(r); 
+  reply(r);
 };
 
 exports.register = function (server, options, next) {

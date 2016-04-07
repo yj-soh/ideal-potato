@@ -42,3 +42,25 @@ server.register({
     throw err;
   }
 });
+
+server.register({
+  register: rfr('app/controllers/GameController.js')
+}, {
+  routes: {prefix: '/api/game'}
+}, (err) => {
+  if (err) {
+    console.log('Unable to register GameController');
+    throw err;
+  }
+});
+
+server.register({
+  register: rfr('app/controllers/PostController.js')
+}, {
+  routes: {prefix: '/api/post'}
+}, (err) => {
+  if (err) {
+    console.log('Unable to register PostController');
+    throw err;
+  }
+})

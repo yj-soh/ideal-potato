@@ -125,7 +125,8 @@ function Db() {
   this.models = {
     'user': User,
     'game': Game,
-    'tag': Tag
+    'tag': Tag,
+    'post': Post
   };
 }
 

@@ -21,7 +21,8 @@ gameApp.config(function($routeProvider) {
     templateUrl: 'partials/findfriends.html'
   }).
   when('/profile', {
-    templateUrl: 'partials/profile.html'
+    templateUrl: 'partials/profile.html',
+    controller: 'ProfileController'
   }).
   when('/posts', {
     templateUrl: 'partials/posts.html'
