@@ -17,27 +17,24 @@ const Class = Crawler.prototype;
 
 Class.getUserOwnedGames = function (userId, includeInfo) {
   return processJsonRequest(getOwnedGames(this.apiKey, userId, includeInfo))
-      .then((json) => {
-        return json.response.games.map((game) => {
-          let gameData = {
-            id: game.appid,
-            playtime: {
-              total: game.playtime_forever,
-              recent: game.playtime_2weeks || 0
-            }
-          };
-          if (includeInfo) {
-            gameData.img = {
-              icon: game.img_icon_url,
-              logo: game.img_icon_url
+      .then((json) => json.response.hasOwnProperty('game_count') ?
+          json.response.games.map((game) => {
+            let gameData = {
+              id: game.appid,
+              playtime: {
+                total: game.playtime_forever,
+                recent: game.playtime_2weeks || 0
+              }
             };
-          }
-          return gameData;
-        });
-      });
+            if (includeInfo) {
+              gameData.img = {
+                icon: game.img_icon_url,
+                logo: game.img_icon_url
+              };
+            }
+            return gameData;
+          }) : false);
 };
-
-
 
 const processJsonRequest = (url) =>
     new Promise((resolve, reject) => {

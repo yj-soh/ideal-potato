@@ -85,7 +85,8 @@ const getOwnGames = function (request, reply) {
 };
 
 const getUserGames = function (request, reply) {
-  reply(Crawler.getUserOwnedGames(request.params.userId, false));
+  let games = Crawler.getUserOwnedGames(request.params.userId, false);
+  reply(games || {private: true});
 };
 
 const login = function (request, reply) {
