@@ -8,7 +8,17 @@ const config = rfr('config/ServerConfig');
 const server = new Hapi.Server();
 server.connection(config.server);
 
+const registerAuth = () => {
+  return server.register(require('hapi-auth-cookie')).then((err) => {
+    if (err) {
+      console.log(err);
+      throw err;
+    }
 
+    const authByDefault = true;
+    server.auth.strategy('session', 'cookie', authByDefault, config.auth);
+  });
+};
 
 const registerRoutes = () => {
   return Promise.all([
@@ -20,6 +30,9 @@ const registerRoutes = () => {
       server.route({
         method: 'GET',
         path: '/{param*}',
+        config: {
+          auth: false
+        },
         handler: {
           directory: {
             path: 'public',
@@ -64,7 +77,8 @@ const registerRoutes = () => {
   ]);
 };
 
-registerRoutes()
+registerAuth()
+    .then(() => registerRoutes())
     .then(() => Db.sync())
     .then(() => server.start())
     .then((err) => {
