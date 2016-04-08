@@ -98,17 +98,22 @@ const getUser = function (request, reply) {
 };
 
 const getUserProfile = function (request, reply) {
-  Crawler.getUserProfile(request.params.userId).then(
-    (user) => {
-      if (user.length < 1) {
-        return reply({success: false, error: 'User does not exist.'});
-      }
-      Db.models.post.findAll({where: {poster: request.params.userId}, order: [['createdAt', 'DESC']], include: [Db.models.game]}).then(function (posts) {
-        user[0].posts = posts;
-        reply({success: true, data: user[0]});
-      });
+  Promise.all([
+    Crawler.getUserProfile(request.params.userId),
+    Crawler.getUserOwnedGames(request.params.userId, true)
+  ]).then(function (data) {
+    let users = data[0];
+    if (users.length < 1) {
+      return reply({success: false, error: 'User does not exist.'});
     }
-  );
+    let user = users[0];
+    let games = data[1];
+    user.games = games;
+    Db.models.post.findAll({where: {poster: request.params.userId}, order: [['createdAt', 'DESC']], include: [Db.models.game]}).then(function (posts) {
+      user.posts = posts;
+      reply({success: true, data: user});
+    });
+  });
 };
 
 const getOwnGames = function (request, reply) {

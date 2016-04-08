@@ -204,6 +204,19 @@ input.search-box {
   color: #9ECC8E;
 }
 
+.profile .profile-recently-played img {
+  width: 100%;
+  max-width: 180px;
+}
+
+.profile .profile-recently-played a {
+  margin-right: 10px;
+}
+
+.profile .profile-recently-played a:last-child {
+  margin-right: 0px;
+}
+
 .profile .profile-main {
   padding: 20px;
   padding-top: 0px;

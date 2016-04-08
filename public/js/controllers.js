@@ -19,10 +19,6 @@ angular.module('gameApp.controllers')
 
   if (!Login.isLoggedIn) return;
 
-  Game.getAllGames().success(function (response) {
-    $scope.gameList = response;
-  });
-
   User.getProfile($routeParams.user).success(function (response) {
     if (response.success) {
       $scope.user = response.data;

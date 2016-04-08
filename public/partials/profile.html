@@ -16,7 +16,7 @@
           <label for="game-list">What game are you playing?</label>
           <input type="text" placeholder="Example: Dota" list="game-list" ng-model="newPost.gameName" ng-required="true"></input>
           <datalist id="game-list">
-            <option ng-repeat="game in gameList" value="{{game.name}}"></option>
+            <option ng-repeat="game in user.games | orderBy:'name'" value="{{game.name}}"></option>
           </datalist>
           <br><br>
           <label>Say something! (If you want)</label>
@@ -30,12 +30,11 @@
       </div>
       <div class="profile-main-information">
         <h3>Recently Played</h3>
-        <img src="http://cdn.akamai.steamstatic.com/steamcommunity/public/images/apps/745/47ad0815abb1258dd93ce07ac6a908814f043067.jpg">
-        <img src="http://cdn.akamai.steamstatic.com/steamcommunity/public/images/apps/745/47ad0815abb1258dd93ce07ac6a908814f043067.jpg">
-        <img src="http://cdn.akamai.steamstatic.com/steamcommunity/public/images/apps/745/47ad0815abb1258dd93ce07ac6a908814f043067.jpg">
-        <img src="http://cdn.akamai.steamstatic.com/steamcommunity/public/images/apps/745/47ad0815abb1258dd93ce07ac6a908814f043067.jpg">
-        <img src="http://cdn.akamai.steamstatic.com/steamcommunity/public/images/apps/745/47ad0815abb1258dd93ce07ac6a908814f043067.jpg">
-        <img src="http://cdn.akamai.steamstatic.com/steamcommunity/public/images/apps/745/47ad0815abb1258dd93ce07ac6a908814f043067.jpg">
+        <div class="profile-recently-played">
+          <a ng-repeat="game in user.games | orderBy: ['-playtime.recent', '-playtime.total'] | limitTo: 4" target="_blank" ng-href="http://store.steampowered.com/app/{{game.id}}">
+            <img ng-src="http://cdn.akamai.steamstatic.com/steam/apps/{{game.id}}/header.jpg">
+          </a>
+        </div>
         <h3>Posts</h3>
         <p ng-show="user.posts.length === 0">No Posts.</p>
         <ul id="profile-post-list" class="profile-posts media-list">

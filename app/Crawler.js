@@ -53,6 +53,7 @@ Class.getUserOwnedGames = function (userId, includeInfo) {
               }
             };
             if (includeInfo) {
+              gameData.name = game.name,
               gameData.img = {
                 icon: game.img_icon_url,
                 logo: game.img_icon_url
