@@ -142,7 +142,7 @@ const processRequest = (url, f) =>
         res.on('data', (chunk) => {
           data += chunk;
         });
-        res.on('end', () => resolve(f(json)));
+        res.on('end', () => resolve(f(data)));
       }, (err) => {
         reject(err)
       });

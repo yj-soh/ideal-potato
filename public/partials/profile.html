@@ -20,7 +20,7 @@
           </datalist>
           <br><br>
           <label>Say something! (If you want)</label>
-          <textarea class="msd-elastic" ng-model="newPost.content" placeholder="Let's pwn this game together folks!"></textarea>
+          <textarea class="msd-elastic" ng-model="newPost.content" placeholder="Let's play this game together folks!"></textarea>
           <br><br>
           <div class="align-right">
             <p class="error" ng-show="newPost.error">Error: {{newPost.error}}</p>
@@ -37,6 +37,7 @@
         <img src="http://cdn.akamai.steamstatic.com/steamcommunity/public/images/apps/745/47ad0815abb1258dd93ce07ac6a908814f043067.jpg">
         <img src="http://cdn.akamai.steamstatic.com/steamcommunity/public/images/apps/745/47ad0815abb1258dd93ce07ac6a908814f043067.jpg">
         <h3>Posts</h3>
+        <p ng-show="user.posts.length === 0">No Posts.</p>
         <ul id="profile-post-list" class="profile-posts media-list">
           <li ng-repeat="post in user.posts" class="post media">
             <span class="post-user media-left">
