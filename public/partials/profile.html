@@ -32,7 +32,7 @@
         <h3>Recently Played</h3>
         <div class="profile-recently-played">
           <a ng-repeat="game in user.games | orderBy: ['-playtime.recent', '-playtime.total'] | limitTo: 4" target="_blank" ng-href="http://store.steampowered.com/app/{{game.id}}">
-            <img ng-src="http://cdn.akamai.steamstatic.com/steam/apps/{{game.id}}/header.jpg">
+            <img ng-hide="game.playtime.total === 0" ng-src="http://cdn.akamai.steamstatic.com/steam/apps/{{game.id}}/header.jpg">
           </a>
         </div>
         <h3>Posts</h3>

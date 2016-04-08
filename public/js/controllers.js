@@ -36,7 +36,7 @@ angular.module('gameApp.controllers')
     Post.add($scope.newPost).success(function (response) {
       if (response.success) {
         // focus on post list in profile
-        $window.location.href = '#/profile#profile-post-list';
+        $window.location.href = '#/profile/' + Login.userId + '#profile-post-list';
       } else {
         $scope.newPost.error = response.error;
       }
