@@ -1,74 +1,65 @@
 'use strict';
 
-const FILE_USERS = '../data/users.json';
+const FILE_USERS = '../data/users.txt';
 const rfr = require('rfr');
 const config = rfr('config/SteamConfig');
-const util = require('util');
-const request = require('sync-request');
-const Db = rfr('app/models/db');
-const fs = require('fs');
+const Crawler = rfr('app/Crawler');
 
 // anime, borderlands, counter strike, euro truck, dota, tf2
-var users = ['76561198102534398', '76561198198104519', '76561198254871104', '76561198086728625', '76561198126924860', '76561198060934132'];
-const numUsersToCrawl = 500;
-var numUsersCrawled = 0;
-var crawledData = [];
+var users = ['76561198074094286']; //['76561198102534398', '76561198198104519', '76561198254871104', '76561198086728625', '76561198126924860', '76561198060934132'];
+const numUsersToCrawl = 1;
 var crawledUsers = [];
 
 function inArray(array, element) {
   return array.indexOf(element) !== -1;
 }
 
-function getUserData(userId) {
-  var profileUrl = util.format('http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key=%s&steamids=%s', config.apiKey, userId);
-  var friendListUrl = util.format('http://api.steampowered.com/ISteamUser/GetFriendList/v0001/?key=%s&steamid=%s&relationship=friend', config.apiKey, userId);
-  var gameListUrl = util.format('http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=%s&steamid=%s&include_played_free_games=1&format=json', config.apiKey, userId);
-
-  var profile = JSON.parse(request('GET', profileUrl).getBody());
-  if (profile.response.players[0].communityvisibilitystate === 1) { // private profile
-    return false;
+function crawlUser(userId) {
+  if (inArray(crawledUsers, userId)) {
+    return;
   }
 
   try {
-    var friends = JSON.parse(request('GET', friendListUrl).getBody());
-    friends = friends.friendslist.friends.map((friend) => friend.steamid);
-    var games = JSON.parse(request('GET', gameListUrl).getBody());
-    games = games.response.games.map((game) => {
-      let gameData = {
-        id: game.appid,
-        playtime: {
-          total: game.playtime_forever,
-          recent: game.playtime_2weeks || 0
-        }
-      };
-      return gameData;
+    Crawler.getUserProfile(userId).then(function (user) {
+      if (user.isPrivate) return;
+
+      Promise.all([
+        Crawler.getUserOwnedGames(userId, false),
+        Crawler.getUserFollowedGames(userId),
+        Crawler.getUserWishlistGames(userId),
+        Crawler.getUserReviewedGames(userId),
+        Crawler.getUserFriends(userId)]).then(function (data) {
+          let ownedGames = data[0];
+          let followedGames = data[1];
+          let wishListGames = data[2];
+          let reviewedGames = data[3];
+          let friends = data[4];
+
+          let crawledData = {
+            user: userId,
+            games: {
+              owned: ownedGames,
+              followed: followedGames,
+              wishlist: wishListGames,
+              reviewed: reviewedGames
+            },
+            friends: friends
+          }
+
+          console.log(JSON.stringify(crawledData) + ', ');
+          crawledUsers.push(user.id);
+
+          friends.forEach((friend) => {
+            crawlUser(friend);
+          });
+        });
     });
-
-    return {user: userId, games: games, friends: friends};
-  } catch (err) {
-    console.log(err);
-    console.log(friendListUrl);
-    console.log(gameListUrl);
-    return false;
+  } catch (error) {
+    console.log(error);
+    return;
   }
 }
 
-while (users.length > 0 && numUsersCrawled < numUsersToCrawl) {
-  var userId = users.shift();
-
-  if (inArray(crawledUsers, userId)) {
-    continue;
-  }
-
-  console.log('Crawling: ' + userId);
-  var userData = getUserData(userId);
-
-  if (!userData) continue;
-
-  crawledData.push(userData);
-  crawledUsers.push(userId);
-  users = users.concat(userData.friends);
-  numUsersCrawled++;
+for (var i = 0; i < users.length; i++) {
+  crawlUser(users[i]);
 }
-
-fs.writeFile(FILE_USERS, JSON.stringify(crawledData));

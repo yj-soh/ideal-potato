@@ -4,19 +4,13 @@ const fs = require('fs');
 const rfr = require('rfr');
 const Db = rfr('app/models/db');
 
-const FILE_GAMES = '../data/games_tagged.json';
-const FILE_USERS = ['../data/usersanime.json',
-  '../data/usersborderlands.json',
-  '../data/userscounterstrike.json',
-  '../data/userseurotruck.json',
-  '../data/usersdota.json',
-  '../data/userstf2.json'];
+const FILE_USERS = ['../data/usersanime.txt',
+  '../data/usersborderlands.txt',
+  '../data/userscounterstrike.txt',
+  '../data/userseurotruck.txt',
+  '../data/userstf2.txt',
+  '../data/usersdota.txt'];
 const FILE_USERS_CLEAN = '../data/users_clean.json';
-
-let games = fs.readFileSync(FILE_GAMES, {
-  encoding: 'utf8'
-});
-games = JSON.parse(games);
 
 function getTags(gameId) {
   for (var i = 0; i < games.length; i++) {
@@ -28,20 +22,26 @@ function getTags(gameId) {
 }
 
 var allUsers = [];
+var userIds = [];
+
+function inArray(array, element) {
+  return array.indexOf(element) !== -1;
+}
 
 FILE_USERS.forEach(function (file) {
   let users = fs.readFileSync(file, {
     encoding: 'utf8'
   });
+  users = '[' + users.replace(/,\s*$/, '') + ']';
   users = JSON.parse(users);
 
   for (var i = 0; i < users.length; i++) {
-    for (var j = 0; j < users[i].games.length; j++) {
-      users[i].games[j].tags = getTags(users[i].games[j].id);
+    if (inArray(userIds, users[i].user)) {
+      continue;
     }
+    userIds.push(users[i].user);
+    allUsers.push(users[i]);
   }
-
-  allUsers = allUsers.concat(users);
 });
 
 fs.writeFileSync(FILE_USERS_CLEAN, JSON.stringify(allUsers));
