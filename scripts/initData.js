@@ -7,6 +7,7 @@ const fs = require('fs');
 const DIR_DATA = 'crawler/data/';
 const FILE_TAGS = DIR_DATA + 'tags.json';
 const FILE_GAMES = DIR_DATA + 'games_tagged.json';
+const FILE_USERS = DIR_DATA + 'users_clean.json';
 
 const parse = (file) => JSON.parse(fs.readFileSync(file, {
   encoding: 'utf8'
@@ -49,4 +50,24 @@ Db.sync().then(() => Promise.all([createTags(), createGames()])).then(() =>
     }).map((game) => Db.models.game.findById(game.id).then((g) => g.setTags(game.tags))))
 ).then(() => {
   console.log('Finished - Data inserted.')
+});
+
+Db.sync().then(function () {
+  // insert users
+  var users = parse(FILE_USERS).map((user) => {
+    return {id: parseInt(user.user)};
+  });
+  Db.models.user.bulkCreate(users, {
+    updateOnDuplicate: true
+  });
+
+  // userGames relation
+  parse(FILE_USERS).map((user) => {
+    let userGames = user.games.map((game) => {
+      return {userId: parseInt(user.user), gameId: parseInt(game.id), playtime: parseInt(game.playtime.total), relation: 'own'};
+    });
+
+    // not using bulkcreate. Just let the foreignKey errors roll - lazy D:
+    userGames.map((userGame) => Db.models.userGames.upsert(userGame));
+  });
 });

@@ -76,6 +76,11 @@ function Db() {
     relation: {
       type: Sequelize.ENUM('own', 'follow', 'wishlist', 'review'),
       allowNull: false
+    },
+    playtime: {
+      type: Sequelize.INTEGER,
+      allowNull: false,
+      defaultValue: 0
     }
   });
 
@@ -126,7 +131,8 @@ function Db() {
     'user': User,
     'game': Game,
     'tag': Tag,
-    'post': Post
+    'post': Post,
+    'userGames': UserGames
   };
 }
 
