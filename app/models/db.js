@@ -11,7 +11,8 @@ function Db() {
       config.password, {
         host: config.host,
         dialect: config.dialect,
-        dialectOptions: config.dialectOptions
+        dialectOptions: config.dialectOptions,
+        logging: false
       });
 
   const User = sequelize.define('user', {
