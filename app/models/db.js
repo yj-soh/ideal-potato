@@ -87,8 +87,8 @@ function Db() {
       defaultValue: false
     },
     reviewed: {
-      type: Sequelize.BOOLEAN,
-      defaultValue: false
+      type: Sequelize.ENUM('pos', 'neg'),
+      allowNull: true
     },
     playtime: {
       type: Sequelize.INTEGER,
