@@ -97,6 +97,8 @@ function Db() {
     }
   });
 
+  const GameTags = sequelize.define('gameTags');
+
   const Post = sequelize.define('post', {
     id: {
       type: Sequelize.INTEGER,
@@ -129,8 +131,8 @@ function Db() {
   User.belongsToMany(Game, {through: UserGames});
   Game.belongsToMany(User, {through: UserGames});
 
-  Game.belongsToMany(Tag, {through: 'gameTags'});
-  Tag.belongsToMany(Game, {through: 'gameTags'});
+  Game.belongsToMany(Tag, {through: GameTags});
+  Tag.belongsToMany(Game, {through: GameTags});
 
   this.sync = () => sequelize.sync().then(() => {
     let utf8mb4Query = 'ALTER TABLE sgb.games CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;';
@@ -147,7 +149,8 @@ function Db() {
     'game': Game,
     'tag': Tag,
     'post': Post,
-    'userGames': UserGames
+    'userGames': UserGames,
+    'gameTags': GameTags
   };
 }
 
