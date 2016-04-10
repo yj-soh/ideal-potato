@@ -70,6 +70,14 @@ angular.module('gameApp.controllers')
     User.getUsersDetails(userIds).success(function (response) {
       console.log(response);
       $scope.recommendationUsers = response;
+
+      $scope.getUserDetails = function (userId) {
+        for (var i = 0; i < $scope.recommendationUsers.length; i++) {
+          if ($scope.recommendationUsers[i].id == userId) {
+            return $scope.recommendationUsers[i];
+          }
+        }
+      };
     });
   });
 });
