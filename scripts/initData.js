@@ -52,6 +52,7 @@ Db.sync().then(() => Promise.all([createTags(), createGames()])).then(() =>
   console.log('Finished - Data inserted.')
 });
 
+/*
 Db.sync().then(function () {
   // insert users
   var users = parse(FILE_USERS).map((user) => {
@@ -71,3 +72,4 @@ Db.sync().then(function () {
     userGames.map((userGame) => Db.models.userGames.upsert(userGame));
   });
 });
+*/
