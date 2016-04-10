@@ -9,20 +9,45 @@ function UserService () {}
 
 const Class = UserService.prototype;
 
+const gameTagMap = {};
+
+const getUserGames = () => {
+  let lastUpdated = new Date();
+  let shouldUpdate = () => new Date() - lastUpdated > 1000 * 60 * 60 * 24;
+
+  let update = () => Db.models.user.findAll({
+    include: [{
+      model: Db.models.game,
+      through: {attributes: ['playtime']}
+    }]
+  });
+
+  let userGames = update();
+
+  return {
+    for: (id) => {
+      if (shouldUpdate()) {
+        userGames = update();
+      }
+      return userGames.then((users) => users.filter((u) => u.id === id)[0]);
+    },
+    without: (id) => {
+      if (shouldUpdate()) {
+        userGames = update();
+      }
+      return userGames.then((users) => users.filter((u) => u.id !== id));
+    }
+  };
+};
+let storedUserGames = () => {
+  let userGames = getUserGames();
+  storedUserGames = () => userGames;
+  return storedUserGames();
+};
+
 Class.getRecommendations = function (userId, numRecommendation) {
-  let userGameIncludes = [{
-    model: Db.models.game,
-    through: {attributes: ['playtime']}
-  }];
-
-  let userGames = Db.models.user.findById(userId, {
-    include: userGameIncludes
-  });
-
-  let usersGames = Db.models.user.findAll({
-    where: {id: {ne: userId}},
-    include: userGameIncludes
-  });
+  let userGames = storedUserGames().for(userId);
+  let usersGames = storedUserGames().without(userId);
 
   return Promise.all([userGames, usersGames]).then((userGames) => {
     let user = {
@@ -38,13 +63,14 @@ Class.getRecommendations = function (userId, numRecommendation) {
     });
 
     // construct an array of unique game ids obtained from all users (incl. requested user)
-    let allGames = Array.from(new Set(userGames[1].concat(userGames[0]).map((u) => u.games.map((g) => g.id)).reduce((x, y) => x.concat(y))));
+    let allGames = Array.from(new Set(userGames[1].concat(userGames[0])
+                                                  .map((u) => u.games.map((g) => parseInt(g.id)))
+                                                  .reduce((x, y) => x.concat(y))
+                                                  .filter((id) => !gameTagMap.hasOwnProperty(id))));
 
     return Db.models.gameTags.findAll({
       where: {gameId: allGames}
     }).then((gameTags) => {
-
-      let gameTagMap = {};
       gameTags.forEach((gameTag) => {
         gameTagMap[gameTag.gameId] = gameTagMap[gameTag.gameId] || [];
         gameTagMap[gameTag.gameId].push(gameTag.tagId);
