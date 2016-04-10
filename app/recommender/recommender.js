@@ -24,9 +24,10 @@ Recommender.recommend = function (vector, allVectors) {
       curVector.fill(0, oldLength);
     }
 
+    let sScore = similarity(vector, curVector); // NaN if either is all zero
     similarities.push({
       'index': idx,
-      'similarity': similarity(vector, curVector)
+      'similarity': isNaN(sScore) ? 0 : sScore
     });
   });
 
