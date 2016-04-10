@@ -50,5 +50,16 @@ for tag in tags:
         tag_topic_map[tag['tagid']] = [topic_count]
         topic_count += 1
 
+topic_tag_map = {}
+for tag in tag_topic_map:
+    for topic in tag_topic_map[tag]:
+        if not topic in topic_tag_map:
+            topic_tag_map[topic] = [tag]
+        else:
+            topic_tag_map[topic].append(tag)
+
 with open('tags_topics.json', 'w') as output_file:
     json.dump(tag_topic_map, output_file)
+
+with open('topic_tag.json', 'w') as output_file:
+    json.dump(topic_tag_map, output_file)
