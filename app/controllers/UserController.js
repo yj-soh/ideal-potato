@@ -127,15 +127,36 @@ const getUserGames = function (request, reply) {
     Crawler.getUserFollowedGames(request.params.userId),
     Crawler.getUserWishlistGames(request.params.userId),
     Crawler.getUserReviewedGames(request.params.userId)
-  ]).then(
-      (games) => games[0] ? reply({
-        owned: games[0],
-        folllowed: games[1],
-        wishlist: games[2],
-        reviewed: games[3]
-      }) : reply({private: true}),
-      (err) => reply(err)
-  );
+  ]).then((games) => {
+    return games[0] ? {
+      owned: games[0] || [],
+      folllowed: games[1] || [],
+      wishlist: games[2] || [],
+      reviewed: games[3] || []
+    } : {private: true}
+  }).then((gameCategories) => {
+    if (gameCategories.private) {
+      return reply(gameCategories);
+    }
+
+    reply(gameCategories);
+
+    let user = Db.models.user.findById(request.params.userId);
+
+    Object.keys(gameCategories).forEach((category) => {
+      gameCategories[category].forEach((game) => {
+        let options = {};
+        options[category] = true;
+        options.minutesPlayed = game.playtime ? game.playtime.total : 0;
+
+        user.then((u) => {
+          if (u) {
+            u.addGame(game.id, options);
+          }
+        });
+      });
+    });
+  }).catch(console.log);
 };
 
 const getOwnFriends = function (request, reply) {
@@ -187,10 +208,6 @@ const verify = function (request, reply) {
 const logout = function (request, reply) {
   request.cookieAuth.clear();
   reply.redirect('/');
-};
-
-const getUserFromSteam = function (userId) {
-
 };
 
 exports.register = function (server, options, next) {
