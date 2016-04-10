@@ -4,6 +4,7 @@ const rfr = require('rfr');
 const openid = require('openid');
 const Db = rfr('app/models/db');
 const Crawler = rfr('app/Crawler');
+const Recommender = rfr('app/recommender/recommender');
 
 const steamOpenIdUrl = 'http://steamcommunity.com/openid';
 
@@ -28,6 +29,18 @@ Class.registerRoutes = function () {
       }
     },
     handler: getUser
+  });
+
+  this.server.route({
+    method: 'GET',
+    path: '/recommend',
+    handler: getOwnRecommendation
+  });
+
+  this.server.route({
+    method: 'GET',
+    path: '/{userId}/recommend',
+    handler: getFriendRecommendation
   });
 
   this.server.route({
@@ -95,6 +108,66 @@ const getUser = function (request, reply) {
   }
   let user = request.auth.credentials.userId;
   reply({success: true, id: user});
+};
+
+const getOwnRecommendation = function (request, reply) {
+  request.params.userId = request.auth.credentials.userId;
+  getFriendRecommendation(request, reply);
+};
+
+const getFriendRecommendation = function (request, reply) {
+  let userId = request.params.userId;
+
+  let getUserTags = (user) => {
+
+    //console.log('user - ', user.id);
+    return {
+      userId: user.id,
+      games: Promise.all(user.games.map((game) => Db.models.game.findById(game.id, {
+        include: [{
+          model: Db.models.tag
+        }]
+      }).then((g) => {
+        return {
+          index: g.index,
+          minutesPlayed: game.userGames.minutesPlayed,
+          tags: g.tags.map((tag) => tag.id)
+        };
+      })))
+    };
+  };
+
+  let userGameIncludes = [{
+    model: Db.models.game,
+    through: {attributes: ['minutesPlayed']}
+  }];
+
+  let userGames = Db.models.user.findById(userId, {
+    include: userGameIncludes
+  }).then(getUserTags);
+
+  let usersGames = Db.models.user.findAll({
+    where: {id: {ne: userId}},
+    include: userGameIncludes
+  }).then((users) => users.map(getUserTags));
+
+  Promise.all([userGames, usersGames]).then((users) => {
+    let user = users[0];
+    users = users[1];
+
+    Promise.all([user.games, Promise.all(users.map((u) => u.games))]).then((games) => {
+      let recommendations = Recommender.recommend(
+          Recommender.buildTopicsVector(games[0]),
+          games[1].map((g) => Recommender.buildTopicsVector(g))
+      );
+
+      let rUsers = recommendations.slice(0, 3).map((r) => users[r.index].userId);
+      console.log(rUsers, recommendations.slice(0, 3));
+
+      reply(rUsers);
+    });
+
+  }).catch(console.log);
 };
 
 const getUserProfile = function (request, reply) {
