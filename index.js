@@ -79,7 +79,7 @@ const registerRoutes = () => {
 
 registerAuth()
     .then(() => registerRoutes())
-    .then(() => Db.sync())
+    // .then(() => Db.sync())
     .then(() => server.start())
     .then((err) => {
       if (err) {

@@ -51,14 +51,21 @@ angular.module('gameApp.controllers')
     $scope.posts = response;
   });
 })
-.controller('FriendsController', function ($scope, User, Login) {
+.controller('FriendsController', function ($scope, User, Login, Tag) {
   'use strict';
 
   if (!Login.isLoggedIn) return;
 
+  $scope.getTagName = Tag.getTagName;
+
   User.getRecommendations().success(function (recommendations) {
-    User.getUsersDetails(recommendations).success(function (response) {
-      $scope.recommendations = response;
+    $scope.recommendations = recommendations;
+
+    var userIds = recommendations.map((recommendation) => {
+      return recommendation.id;
+    });
+    User.getUsersDetails(userIds).success(function (response) {
+      $scope.recommendationUsers = response;
     });
   });
 });

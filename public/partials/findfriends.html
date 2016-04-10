@@ -1,13 +1,13 @@
 <ul class="recommended-friends media-list" ng-show="isLoggedIn">
-  <li ng-repeat="recommendation in recommendations" class="media">
-      <a class="friend-picture media-left">
-          <img class="media-object" ng-src="{{recommendation.image}}"/>
-          <h4>{{recommendation.name}}</h4>
+  <li ng-repeat="user in recommendationUsers" class="media">
+      <a class="friend-picture media-left" ng-href="#/profile/{{user.id}}">
+          <img class="media-object" ng-src="{{user.image}}"/>
+          <h4>{{user.name}}</h4>
       </a>
       <div class="friend-information media-body">
           <div class="friend-tags">
               Also likes:<br>
-              <span class="game-tag">RPG</span> <span class="game-tag">Simulator</span> <span class="game-tag">Multiplayer</span>
+              <span ng-repeat="tag in recommendations[$index].reason | limitTo: 5" class="game-tag">{{getTagName(tag)}}</span>
           </div>
           <br>
           <div class="friend-games">

@@ -3,6 +3,7 @@
 const rfr = require('rfr');
 const openid = require('openid');
 const Db = rfr('app/models/db');
+const Crawler = rfr('app/Crawler');
 const Service = rfr('app/services/UserService');
 
 const steamOpenIdUrl = 'http://steamcommunity.com/openid';

@@ -84,12 +84,32 @@ Class.getRecommendations = function (userId, numRecommendation) {
         };
       });
 
+      let formattedUser = formatUserGames(user);
+      let formattedUsers = users.map(formatUserGames);
+
       let recommendations = Recommender.recommend(
-          Recommender.buildTopicsVector(formatUserGames(user)),
-          users.map(formatUserGames).map((g) => Recommender.buildTopicsVector(g))
+          Recommender.buildTopicsVector(formattedUser),
+          formattedUsers.map((g) => Recommender.buildTopicsVector(g))
       );
 
-      return recommendations.slice(0, numRecommendation).map((r) => users[r.index].userId);
+      // do reasoning for tags
+      let userTagVector = Recommendation.buildTagsVector()
+      for (var i = 0; i < recommendations.length; i++) {
+
+        if (recommendations[i].similarity > 0.7) { // do reasoning for similar users only
+          recommendations[i].reason = Recommender.reasonTopics(userTopicVector, userTopicVectors[i]);
+        }
+      }
+
+      recommendations.sort((a, b) => b.similarity - a.similarity);
+
+      return recommendations.slice(0, numRecommendation).map((r) => {
+        return {
+          id: users[r.index].userId,
+          similarity: r.similarity,
+          reason: r.reason
+        }
+      });
     });
   }).catch(console.log);
 };
