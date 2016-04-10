@@ -74,9 +74,25 @@ function Db() {
   });
 
   const UserGames = sequelize.define('userGames', {
-    relation: {
-      type: Sequelize.ENUM('own', 'follow', 'wishlist', 'review'),
-      allowNull: false
+    owned: {
+      type: Sequelize.BOOLEAN,
+      defaultValue: false
+    },
+    followed: {
+      type: Sequelize.BOOLEAN,
+      defaultValue: false
+    },
+    wishlist: {
+      type: Sequelize.BOOLEAN,
+      defaultValue: false
+    },
+    reviewed: {
+      type: Sequelize.BOOLEAN,
+      defaultValue: false
+    },
+    minutesPlayed: {
+      type: Sequelize.INTEGER,
+      defaultValue: 0
     }
   });
 
@@ -106,6 +122,8 @@ function Db() {
   Post.belongsTo(User, {
       foreignKey: 'poster'
   });
+
+  User.belongsToMany(User, {through: 'friends', as: 'Friends'});
 
   User.belongsToMany(Game, {through: UserGames});
   Game.belongsToMany(User, {through: UserGames});
