@@ -203,7 +203,7 @@ const getUserGames = function (request, reply) {
   ]).then((games) => {
     return games[0] ? {
       owned: games[0] || [],
-      folllowed: games[1] || [],
+      followed: games[1] || [],
       wishlist: games[2] || [],
       reviewed: games[3] || []
     } : {private: true}
@@ -212,23 +212,43 @@ const getUserGames = function (request, reply) {
       return reply(gameCategories);
     }
 
-    reply(gameCategories);
+    Db.models.game.findAll().then((allGames) => allGames.map((g) => g.id)).then((allGames) => {
+      let games = {};
 
-    let user = Db.models.user.findById(request.params.userId);
-
-    Object.keys(gameCategories).forEach((category) => {
-      gameCategories[category].forEach((game) => {
-        let options = {};
-        options[category] = true;
-        options.minutesPlayed = game.playtime ? game.playtime.total : 0;
-
-        user.then((u) => {
-          if (u) {
-            u.addGame(game.id, options);
-          }
-        });
+      gameCategories.owned.forEach((game) => {
+        games[game.id] = games[game.id] || {};
+        games[game.id].owned = true;
+        games[game.id].playtime = game.playtime.total
       });
-    });
+      gameCategories.followed.forEach((game) => {
+        games[game.id] = games[game.id] || {};
+        games[game.id].followed = true;
+      });
+      gameCategories.wishlist.forEach((game) => {
+        games[game.id] = games[game.id] || {};
+        games[game.id].wishlist = true;
+      });
+      gameCategories.reviewed.forEach((game) => {
+        games[game.id] = games[game.id] || {};
+        games[game.id].reviewed = game.isPositive ? 'pos' : 'neg';
+      });
+
+      let userGameRecords = Object.keys(games).map((id) => {
+        return {
+          userId: request.params.userId,
+          gameId: parseInt(id),
+          owned: games[id].owned,
+          followed: games[id].followed,
+          wishlist: games[id].wishlist,
+          reviewed: games[id].reviewed,
+          playtime: games[id].playtime
+        };
+      }).filter((r) => allGames.indexOf(r.gameId) > -1);
+
+      Db.models.userGames.bulkCreate(userGameRecords, {
+        updateOnDuplicate: true
+      });
+    }).then(() => reply(gameCategories));
   }).catch(console.log);
 };
 
