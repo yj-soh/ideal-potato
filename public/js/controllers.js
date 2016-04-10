@@ -62,10 +62,13 @@ angular.module('gameApp.controllers')
   User.getRecommendations().success(function (recommendations) {
     $scope.recommendations = recommendations;
 
-    var userIds = recommendations.map((recommendation) => {
-      return recommendation.id;
-    });
+    var userIds = [];
+    for (var i = 0; i < recommendations.length; i++) {
+      userIds.push(recommendations[i].id);
+    }
+
     User.getUsersDetails(userIds).success(function (response) {
+      console.log(response);
       $scope.recommendationUsers = response;
     });
   });
