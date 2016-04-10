@@ -118,25 +118,6 @@ const getOwnRecommendation = function (request, reply) {
 const getFriendRecommendation = function (request, reply) {
   let userId = request.params.userId;
 
-  let getUserTags = (user) => {
-
-    //console.log('user - ', user.id);
-    return {
-      userId: user.id,
-      games: Promise.all(user.games.map((game) => Db.models.game.findById(game.id, {
-        include: [{
-          model: Db.models.tag
-        }]
-      }).then((g) => {
-        return {
-          index: g.index,
-          minutesPlayed: game.userGames.minutesPlayed,
-          tags: g.tags.map((tag) => tag.id)
-        };
-      })))
-    };
-  };
-
   let userGameIncludes = [{
     model: Db.models.game,
     through: {attributes: ['playtime']}
@@ -144,29 +125,56 @@ const getFriendRecommendation = function (request, reply) {
 
   let userGames = Db.models.user.findById(userId, {
     include: userGameIncludes
-  }).then(getUserTags);
+  });
 
   let usersGames = Db.models.user.findAll({
     where: {id: {ne: userId}},
     include: userGameIncludes
-  }).then((users) => users.map(getUserTags));
+  });
 
-  Promise.all([userGames, usersGames]).then((users) => {
-    let user = users[0];
-    users = users[1];
+  Promise.all([userGames, usersGames]).then((userGames) => {
+    let user = {
+      userId: userGames[0].id,
+      games: userGames[0].games
+    };
 
-    Promise.all([user.games, Promise.all(users.map((u) => u.games))]).then((games) => {
+    let users = userGames[1].map((u) => {
+      return {
+        userId: u.id,
+        games: u.games
+      };
+    });
+
+    // construct an array of unique game ids obtained from all users (incl. requested user)
+    let allGames = Array.from(new Set(userGames[1].concat(userGames[0]).map((u) => u.games.map((g) => g.id)).reduce((x, y) => x.concat(y))));
+
+    Db.models.gameTags.findAll({
+      where: {gameId: allGames}
+    }).then((gameTags) => {
+
+      let gameTagMap = {};
+      gameTags.forEach((gameTag) => {
+        gameTagMap[gameTag.gameId] = gameTagMap[gameTag.gameId] || [];
+        gameTagMap[gameTag.gameId].push(gameTag.tagId);
+      });
+
+      // format into something usable by Recommender.buildTopicsVector
+      let formatUserGames = (u) => u.games.map((g) => {
+        return {
+          playtime: g.userGames.playtime,
+          tags: gameTagMap[g.id] || []
+        };
+      });
+
       let recommendations = Recommender.recommend(
-          Recommender.buildTopicsVector(games[0]),
-          games[1].map((g) => Recommender.buildTopicsVector(g))
+          Recommender.buildTopicsVector(formatUserGames(user)),
+          users.map(formatUserGames).map((g) => Recommender.buildTopicsVector(g))
       );
 
-      let rUsers = recommendations.slice(0, 3).map((r) => users[r.index].userId);
-      console.log(rUsers, recommendations.slice(0, 3));
+      let rUsers = recommendations.slice(0, 10).map((r) => users[r.index].userId);
 
       reply(rUsers);
     });
-
   }).catch(console.log);
 };
 
