@@ -49,6 +49,20 @@ Recommender.reasonGames = function (vector1, vector2) {
   return common;
 };
 
+Recommender.reasonTags = function (vector1, vector2) {
+  var common = [];
+
+  for (var i = 0; i < vector1.length && i < vector2.length; i++) {
+    if (vector1[i] > 0 && vector2[i] > 0) {
+      common.push({id: i, value: vector1[i]});
+    }
+  }
+
+  common.sort((a, b) => {return b.value, a.value});
+
+  return common;
+};
+
 // replace all undefined cells in the array with 0
 Recommender.cleanArray = function (array) {
   for (var i = 0; i < array.length; i++) {
@@ -69,7 +83,7 @@ Recommender.buildGamesVector = function (games) {
 };
 
 Recommender.buildTagsVector = function (games) {
-  tagsVector = [];
+  var tagsVector = [];
   games.forEach((game) => {
     game.tags.forEach((tag) => {
       tagsVector[tag] = tagsVector[tag] || 0;

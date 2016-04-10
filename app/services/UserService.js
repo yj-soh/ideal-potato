@@ -86,6 +86,7 @@ Class.getRecommendations = function (userId, numRecommendation, recommendByGames
       });
 
       let buildVector = recommendByGames ? Recommender.buildGamesVector : Recommender.buildTopicsVector;
+
       let userVector = buildVector(formatUserGames(user));
       let usersVector = users.map(formatUserGames).map((g) => buildVector(g));
       let recommendations = Recommender.recommend(
@@ -94,8 +95,9 @@ Class.getRecommendations = function (userId, numRecommendation, recommendByGames
       );
 
       for (var i = 0; i < recommendations.length; i++) {
-        if (recommendations[i].similarity > 0.7) // only reason if quite similar
+        if (recommendations[i].similarity > 0.7) { // only reason if quite similar
           recommendations[i].reason = Recommender.reasonGames(userVector, usersVector[i]);
+        }
       }
 
       recommendations.sort((a, b) => b.similarity - a.similarity);
