@@ -45,7 +45,7 @@ let storedUserGames = () => {
   return storedUserGames();
 };
 
-Class.getRecommendations = function (userId, numRecommendation) {
+Class.getRecommendations = function (userId, numRecommendation, recommendByGames) {
   let userGames = storedUserGames().for(userId);
   let usersGames = storedUserGames().without(userId);
 
@@ -80,25 +80,22 @@ Class.getRecommendations = function (userId, numRecommendation) {
       let formatUserGames = (u) => u.games.map((g) => {
         return {
           playtime: g.userGames.playtime,
-          tags: gameTagMap[g.id] || []
+          tags: gameTagMap[g.id] || [],
+          index: g.index
         };
       });
 
-      let formattedUser = formatUserGames(user);
-      let formattedUsers = users.map(formatUserGames);
-
+      let buildVector = recommendByGames ? Recommender.buildGamesVector : Recommender.buildTopicsVector;
+      let userVector = buildVector(formatUserGames(user));
+      let usersVector = users.map(formatUserGames).map((g) => buildVector(g));
       let recommendations = Recommender.recommend(
-          Recommender.buildTopicsVector(formattedUser),
-          formattedUsers.map((g) => Recommender.buildTopicsVector(g))
+          userVector,
+          usersVector
       );
 
-      // do reasoning for tags
-      let userTagVector = Recommendation.buildTagsVector()
       for (var i = 0; i < recommendations.length; i++) {
-
-        if (recommendations[i].similarity > 0.7) { // do reasoning for similar users only
-          recommendations[i].reason = Recommender.reasonTopics(userTopicVector, userTopicVectors[i]);
-        }
+        if (recommendations[i].similarity > 0.7) // only reason if quite similar
+          recommendations[i].reason = Recommender.reasonGames(userVector, usersVector[i]);
       }
 
       recommendations.sort((a, b) => b.similarity - a.similarity);

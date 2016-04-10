@@ -25,31 +25,28 @@ Recommender.recommend = function (vector, allVectors) {
       curVector.fill(0, oldLength);
     }
 
+    let sScore = similarity(vector, curVector); // NaN if either is all zero
     similarities.push({
       'index': idx,
-      'similarity': similarity(vector, curVector)
+      'similarity': isNaN(sScore) ? 0 : sScore
     });
   });
 
   return similarities;
 };
 
-Recommender.reasonTopics = function (vector1, vector2) {
-  var commonTags = [];
+Recommender.reasonGames = function (vector1, vector2) {
+  var common = [];
 
   for (var i = 0; i < vector1.length && i < vector2.length; i++) {
     if (vector1[i] > 0 && vector2[i] > 0) {
-      commonTags = commonTags.concat(topicTagModel[i]);
+      common.push({index: i, value: vector1[i]});
     }
   }
 
-  // remove duplicates
-  commonTags.sort((a, b) => {return a - b});
-  commonTags = commonTags.filter(function(item, pos, self) {
-    return item != self[pos - 1];
-  });
+  common.sort((a, b) => {return b.value, a.value});
 
-  return commonTags;
+  return common;
 };
 
 // replace all undefined cells in the array with 0

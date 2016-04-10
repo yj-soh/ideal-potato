@@ -122,7 +122,7 @@ const getOwnRecommendation = function (request, reply) {
 };
 
 const getFriendRecommendation = function (request, reply) {
-  reply(Service.getRecommendations(request.params.userId, 10));
+  reply(Service.getRecommendations(request.params.userId, 10, true));
 };
 
 const getUserDetails = function (request, reply) {

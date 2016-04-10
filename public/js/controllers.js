@@ -51,12 +51,13 @@ angular.module('gameApp.controllers')
     $scope.posts = response;
   });
 })
-.controller('FriendsController', function ($scope, User, Login, Tag) {
+.controller('FriendsController', function ($scope, User, Login, Tag, Game) {
   'use strict';
 
   if (!Login.isLoggedIn) return;
 
   $scope.getTagName = Tag.getTagName;
+  $scope.getGameIdFromIndex = Game.getIdFromIndex;
 
   User.getRecommendations().success(function (recommendations) {
     $scope.recommendations = recommendations;

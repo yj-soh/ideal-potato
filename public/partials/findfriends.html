@@ -1,3 +1,6 @@
+<p ng-show="!recommendationUsers || recommendationUsers.length === 0">
+  Please wait...
+</p>
 <ul class="recommended-friends media-list" ng-show="isLoggedIn">
   <li ng-repeat="user in recommendationUsers" class="media">
       <a class="friend-picture media-left" ng-href="#/profile/{{user.id}}">
@@ -5,15 +8,15 @@
           <h4>{{user.name}}</h4>
       </a>
       <div class="friend-information media-body">
-          <div class="friend-tags">
+          <!-- <div class="friend-tags">
               Also likes:<br>
               <span ng-repeat="tag in recommendations[$index].reason | limitTo: 5" class="game-tag">{{getTagName(tag)}}</span>
-          </div>
+          </div> -->
           <br>
           <div class="friend-games">
               Also plays:<br>
-              <img src="http://cdn.akamai.steamstatic.com/steamcommunity/public/images/apps/745/47ad0815abb1258dd93ce07ac6a908814f043067.jpg">
-              <img src="http://cdn.akamai.steamstatic.com/steamcommunity/public/images/apps/745/47ad0815abb1258dd93ce07ac6a908814f043067.jpg">
+              <img ng-repeat="game in recommendations[$index].reason | limitTo: 4" ng-src="http://cdn.akamai.steamstatic.com/steam/apps/{{getGameIdFromIndex(game.index)}}/header.jpg">
+              <!-- <img src="http://cdn.akamai.steamstatic.com/steamcommunity/public/images/apps/745/47ad0815abb1258dd93ce07ac6a908814f043067.jpg"> -->
           </div>
       </div>
       <div class="friend-actions media-right">
