@@ -1,4 +1,4 @@
-'use strict'
+'use strict';
 
 const similarity = require('compute-cosine-similarity');
 const tagTopicModel = {"4608": [143], "1027": [12], "5125": [36], "7948": [79], "17927": [194], "9": [4, 5, 9, 10, 11, 17, 21, 23, 25, 27], "4106": [35], "599": [3, 4, 5, 9, 10, 14, 15, 21, 23, 25, 34], "1036": [10], "1654": [38], "1038": [18], "19": [0, 1, 2, 3, 5, 6, 7, 12, 18, 19, 22, 23, 25, 26, 27, 28, 29, 32, 33, 34, 35, 36, 38], "21006": [196], "21": [1, 2, 5, 8, 12, 14, 16, 19, 20, 25, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39], "31579": [124], "19995": [158], "4637": [7], "5153": [43], "5154": [126], "6691": [51], "5382": [122], "7208": [14, 16, 20, 35, 37], "4700": [33], "6702": [169], "5981": [168], "4145": [96], "4150": [9], "9271": [10], "10808": [114], "5300": [115], "7226": [38], "4667": [36], "8253": [170], "4158": [22], "7743": [81], "10816": [80], "4161": [91], "5186": [93], "11333": [128], "4166": [8, 12, 20, 28, 30, 31], "379975": [29], "4168": [9], "4364": [40], "22602": [21], "1719": [33, 34, 39], "4172": [22], "16250": [180], "4175": [3], "1616": [21], "1720": [32], "13906": [45], "5716": [16, 20], "597": [5, 10, 14, 16, 21, 24, 25, 27, 29, 32, 34, 35, 38], "4182": [1, 4, 6, 8, 9, 12, 13, 17, 18, 20, 23, 24, 26, 30, 31, 33, 34, 37, 39], "4695": [4, 21], "4184": [164], "1625": [2, 6, 13, 35], "1628": [2], "8122": [47], "7423": [151], "150626": [119], "4195": [68], "7782": [61], "4711": [15], "22955": [193], "4202": [104], "1643": [4, 15], "1644": [3, 29], "1645": [5, 27], "1646": [1, 22], "1647": [111], "603297": [159], "113": [10, 18, 19], "7113": [109], "4115": [31], "4726": [14], "17015": [5], "5752": [37], "12286": [130], "122": [1, 5, 11, 15, 19, 25, 29, 30, 36, 37, 38], "1659": [5, 28], "51306": [195], "1662": [15, 28], "1663": [18, 26, 31], "1664": [8, 10, 13, 16, 20, 24, 32, 35, 39], "1665": [32], "1666": [10], "1667": [8, 20, 26, 28], "7250": [78], "1669": [14], "1670": [17], "4231": [1], "1673": [35], "4234": [17], "4747": [29, 30], "1676": [4, 9, 17], "1677": [11, 17], "1678": [9], "1679": [38], "1680": [102], "1681": [16], "4242": [64], "24003": [181], "1684": [1, 11, 30, 37], "1685": [0, 18, 19, 33], "4758": [7], "1687": [12, 31], "1688": [76], "5794": [135], "4252": [83], "1693": [1, 6, 26, 31], "1694": [139], "4255": [7], "7328": [187], "1697": [1, 12, 33], "1698": [16, 20, 39], "7332": [50], "1702": [15], "1649": [101], "4777": [162], "4295": [30], "1708": [9, 11, 17], "1710": [52], "1736": [117], "1714": [120], "29363": [48], "1716": [36], "1717": [118], "1718": [46], "4791": [7, 27], "12472": [4, 21], "1721": [28], "699": [0, 3], "701": [3, 21, 38], "5310": [84], "1730": [189], "1732": [85], "15045": [23], "1734": [16], "5395": [35], "7368": [0], "1738": [16], "15564": [176], "1741": [11, 17], "1742": [8, 20, 30, 31], "1743": [22], "4305": [13], "1746": [184], "5923": [39], "3796": [123], "4821": [63], "3798": [2], "3799": [14], "1752": [24], "1754": [19], "5851": [1, 11, 32], "1756": [6, 13, 22, 24, 30, 37, 39], "21725": [137], "16094": [174], "1759": [36], "3810": [4, 15], "4835": [152], "5348": [54], "4325": [11], "5350": [13, 16, 21, 34], "4840": [0], "1770": [10], "1773": [0, 3, 7, 22, 27], "1774": [7, 12, 18, 26], "1775": [19], "5160": [25], "5363": [62], "134316": [186], "4853": [145], "4342": [16], "5673": [155], "4345": [26], "3834": [8, 15, 29, 30], "3835": [28], "5372": [161], "6910": [107], "3839": [8, 18, 26, 31], "3841": [0, 33], "3843": [18, 33], "16598": [23], "11014": [38], "7432": [71], "13577": [190], "128": [19], "1751": [105], "5900": [8], "4878": [113], "784": [20], "3859": [0, 3, 9, 12, 15, 17, 18, 19, 26, 33], "4885": [7, 32], "4376": [89], "12057": [141], "6426": [55], "8666": [171], "3871": [2, 6, 13, 22, 24, 39], "1755": [17, 23], "6948": [147], "13190": [99], "3878": [24], "809": [59], "1671": [86], "21722": [177], "71389": [191], "4400": [110], "7478": [31], "4136": [33, 34, 39], "6915": [138], "7481": [0, 22], "4155": [133], "14139": [11], "1674": [178], "5390": [166], "7038": [185], "9541": [75], "5432": [167], "4236": [58], "8013": [39], "9551": [14], "5228": [49], "4434": [37], "4947": [44], "4137": [188], "8945": [72], "9564": [98], "6276": [157], "3813": [131], "5984": [41], "6971": [57], "3814": [12], "3942": [17, 23, 26, 31], "3854": [140], "872": [13], "17770": [172], "4754": [144], "4975": [69], "3952": [112], "4328": [4], "56690": [173], "6815": [88], "3959": [36], "9592": [182], "4474": [116], "3964": [2, 6, 36], "6378": [26], "5502": [87], "3968": [24, 34], "5611": [19], "4684": [90], "4486": [38], "3978": [28], "8075": [27], "1735": [134], "4845": [179], "5179": [129], "3987": [4, 9], "15954": [150], "5765": [108], "6041": [165], "3955": [132], "17305": [125], "4736": [82], "11123": [146], "4508": [136], "5708": [53], "5537": [13, 35], "4004": [2, 6, 7], "1445": [21], "5030": [66], "1777": [27], "5547": [67], "10397": [23], "87": [10], "4018": [95], "1651": [97], "10679": [127], "17337": [32], "4026": [2, 6, 13, 22, 36], "1695": [3, 12, 15, 18, 19, 23, 25, 30], "6730": [65], "5055": [100], "7107": [60], "4036": [34], "9157": [142], "7622": [160], "10695": [28], "5577": [29, 37], "18594": [27, 32], "4046": [74], "4559": [92], "233824": [175], "4562": [106], "13782": [73], "4057": [42], "21978": [3], "5711": [29], "13276": [103], "6621": [121], "4064": [56], "6625": [163], "6310": [183], "5094": [153], "198631": [192], "348922": [149], "15339": [25], "492": [0, 2, 5, 6, 7, 8, 10, 11, 13, 14, 15, 21, 23, 24, 25, 27, 28, 29, 32, 34, 35, 36, 37, 38, 39], "5613": [20], "5407": [154], "7569": [156], "5796": [148], "4085": [14, 22, 37], "4598": [94], "84": [11], "6650": [14], "6052": [70], "4604": [25], "25085": [24, 27], "4094": [77], "1621": [24]};
@@ -7,34 +7,32 @@ var Recommender = function () {};
 
 // vectors should be normalized
 // returns array of (index, similarity) pairs
-Recommender.recommend = function (vector, allVectors, numRecommendations) {
+Recommender.recommend = function (vector, allVectors) {
   var similarities = [];
-  for (var i = 0; i < allVectors.length; i++) {
+
+  allVectors.forEach((curVector, idx) => {
     // make both vectors the same length
-    if (vector.length < allVectors[i].length) {
-      var oldLength = vector.length;
-      vector[allVectors[i].length - 1] = 0;
+    var oldLength = Math.min(vector.length, curVector.length);
+
+    if (vector.length < curVector.length) {
+      vector[curVector.length - 1] = 0;
       vector.fill(0, oldLength);
-    } else if (vector.length > allVectors[i].length) {
-      var oldLength = allVectors[i].length;
-      allVectors[i][vector.length - 1] = 0;
-      allVectors[i].fill(0, oldLength);
+    }
+
+    if (vector.length > curVector.length) {
+      curVector[vector.length - 1] = 0;
+      curVector.fill(0, oldLength);
     }
 
     similarities.push({
-      'index': i,
-      'similarity': similarity(vector, allVectors[i])
+      'index': idx,
+      'similarity': similarity(vector, curVector)
     });
-  }
-
-  similarities.sort(function (a, b) {
-    return b.similarity - a.similarity;
   });
 
-  if (isNaN(numRecommendations) || numRecommendations < 0) {
-    return similarities;
-  }
-  return similarities.slice(0, numRecommendations)
+  similarities.sort((a, b) => b.similarity - a.similarity);
+
+  return similarities;
 };
 
 // replace all undefined cells in the array with 0
@@ -44,13 +42,13 @@ Recommender.cleanArray = function (array) {
       array[i] = 0;
     }
   }
-}
+};
 
 Recommender.buildGamesVector = function (games) {
   var gamesVector = [];
-  for (var i = 0; i < games.length; i++) {
-    gamesVector[games[i].index] = games[i].hoursPlayed;
-  }
+  games.forEach((game) => {
+    gamesVector[game.index] = game.hoursPlayed;
+  });
 
   Recommender.cleanArray(gamesVector);
   return gamesVector;
@@ -58,39 +56,35 @@ Recommender.buildGamesVector = function (games) {
 
 Recommender.buildTopicsVector = function (games) {
   var topicsVector = [];
-  for (var i = 0; i < games.length; i++) {
-    var tags = games[i].tags;
-
-    for (var t = 0; t < tags.length; t++) {
-      var tagTopics = tagTopicModel[tags[t]];
-
-      for (var tt = 0; tt < tagTopics.length; tt++) {
-        if (isNaN(topicsVector[tagTopics[tt]])) {
-          topicsVector[tagTopics[tt]] = 0;
-        }
-        topicsVector[tagTopics[tt]] += games[i].hoursPlayed;
-      }
-    }
-  }
+  games.forEach((game) => {
+    game.tags.forEach((originalTag) => {
+      tagTopicModel[originalTag].forEach((tag) => {
+        topicsVector[tag] = topicsVector[tag] || 0;
+        topicsVector[tag] += game.minutesPlayed;
+      });
+    });
+  });
 
   Recommender.cleanArray(topicsVector);
   return topicsVector;
 };
 
 var vector1 = Recommender.buildTopicsVector([
-  {index: 0, hoursPlayed: 4.5, tags: [9, 19]},
-  {index: 1, hoursPlayed: 0.5, tags: [9, 19]},
-  {index: 3, hoursPlayed: 200, tags: [9, 19]}
+  {index: 0, minutesPlayed: 270, tags: [9, 19]},
+  {index: 1, minutesPlayed: 30, tags: [9, 19]},
+  {index: 3, minutesPlayed: 1200, tags: [9, 19]}
 ]);
 var vector2 = Recommender.buildTopicsVector([
-  {index: 3, hoursPlayed: 1, tags: [9, 19]}
+  {index: 3, minutesPlayed: 60, tags: [9, 19]}
 ]);
 var vector3 = Recommender.buildTopicsVector([
-  {index: 0, hoursPlayed: 4.5, tags: [9, 19]},
-  {index: 3, hoursPlayed: 4.5, tags: [9, 84]}
+  {index: 0, minutesPlayed: 270, tags: [9, 19]},
+  {index: 3, minutesPlayed: 270, tags: [9, 84]}
 ]);
 var vector4 = Recommender.buildTopicsVector([
-  {index: 2, hoursPlayed: 1000, tags: [4608, 1027]}
+  {index: 2, minutesPlayed: 60000, tags: [4608, 1027]}
 ]);
 
-console.log(Recommender.recommend(vector1, [vector2, vector3, vector4], 3));
+console.log(Recommender.recommend(vector1, [vector2, vector3, vector4]).slice(0, 3));
+
+module.exports = Recommender;

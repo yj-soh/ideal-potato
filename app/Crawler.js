@@ -71,7 +71,7 @@ Class.getUserFollowedGames = function (userId) {
             return {
               id: parseInt(id)
             }
-          }));
+          })).catch(() => []);
 };
 
 Class.getUserWishlistGames = function (userId) {
@@ -82,7 +82,7 @@ Class.getUserWishlistGames = function (userId) {
             return {
               id: parseInt(id)
             }
-          }));
+          })).catch(() => []);
 };
 
 Class.getUserReviewedGames = function (userId) {
@@ -106,7 +106,7 @@ Class.getUserReviewedGames = function (userId) {
         }
 
         return games;
-      });
+      }).catch(() => []);
 
   return processPage(userId, 1);
 

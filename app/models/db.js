@@ -11,7 +11,8 @@ function Db() {
       config.password, {
         host: config.host,
         dialect: config.dialect,
-        dialectOptions: config.dialectOptions
+        dialectOptions: config.dialectOptions,
+        logging: false
       });
 
   const User = sequelize.define('user', {
@@ -73,9 +74,21 @@ function Db() {
   });
 
   const UserGames = sequelize.define('userGames', {
-    relation: {
-      type: Sequelize.ENUM('own', 'follow', 'wishlist', 'review'),
-      allowNull: false
+    owned: {
+      type: Sequelize.BOOLEAN,
+      defaultValue: false
+    },
+    followed: {
+      type: Sequelize.BOOLEAN,
+      defaultValue: false
+    },
+    wishlist: {
+      type: Sequelize.BOOLEAN,
+      defaultValue: false
+    },
+    reviewed: {
+      type: Sequelize.BOOLEAN,
+      defaultValue: false
     },
     playtime: {
       type: Sequelize.INTEGER,
@@ -110,6 +123,8 @@ function Db() {
   Post.belongsTo(User, {
       foreignKey: 'poster'
   });
+
+  User.belongsToMany(User, {through: 'friends', as: 'Friends'});
 
   User.belongsToMany(Game, {through: UserGames});
   Game.belongsToMany(User, {through: UserGames});
