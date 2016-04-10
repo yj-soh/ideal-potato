@@ -45,7 +45,7 @@ let storedUserGames = () => {
   return storedUserGames();
 };
 
-Class.getRecommendations = function (userId, numRecommendation) {
+Class.getRecommendations = function (userId, numRecommendation, recommendByGames) {
   let userGames = storedUserGames().for(userId);
   let usersGames = storedUserGames().without(userId);
 
@@ -80,13 +80,15 @@ Class.getRecommendations = function (userId, numRecommendation) {
       let formatUserGames = (u) => u.games.map((g) => {
         return {
           playtime: g.userGames.playtime,
-          tags: gameTagMap[g.id] || []
+          tags: gameTagMap[g.id] || [],
+          index: g.index
         };
       });
 
+      let buildVector = recommendByGames ? Recommender.buildGamesVector : Recommender.buildTopicsVector;
       let recommendations = Recommender.recommend(
-          Recommender.buildTopicsVector(formatUserGames(user)),
-          users.map(formatUserGames).map((g) => Recommender.buildTopicsVector(g))
+          buildVector(formatUserGames(user)),
+          users.map(formatUserGames).map((g) => buildVector(g))
       );
 
       return recommendations.slice(0, numRecommendation).map((r) => users[r.index].userId);
