@@ -139,7 +139,7 @@ const getFriendRecommendation = function (request, reply) {
 
   let userGameIncludes = [{
     model: Db.models.game,
-    through: {attributes: ['minutesPlayed']}
+    through: {attributes: ['playtime']}
   }];
 
   let userGames = Db.models.user.findById(userId, {

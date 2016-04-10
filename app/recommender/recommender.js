@@ -47,7 +47,7 @@ Recommender.cleanArray = function (array) {
 Recommender.buildGamesVector = function (games) {
   var gamesVector = [];
   games.forEach((game) => {
-    gamesVector[game.index] = game.hoursPlayed;
+    gamesVector[game.index] = game.playtime;
   });
 
   Recommender.cleanArray(gamesVector);
@@ -60,7 +60,7 @@ Recommender.buildTopicsVector = function (games) {
     game.tags.forEach((originalTag) => {
       tagTopicModel[originalTag].forEach((tag) => {
         topicsVector[tag] = topicsVector[tag] || 0;
-        topicsVector[tag] += game.minutesPlayed;
+        topicsVector[tag] += game.playtime;
       });
     });
   });
@@ -70,19 +70,19 @@ Recommender.buildTopicsVector = function (games) {
 };
 
 var vector1 = Recommender.buildTopicsVector([
-  {index: 0, minutesPlayed: 270, tags: [9, 19]},
-  {index: 1, minutesPlayed: 30, tags: [9, 19]},
-  {index: 3, minutesPlayed: 1200, tags: [9, 19]}
+  {index: 0, playtime: 270, tags: [9, 19]},
+  {index: 1, playtime: 30, tags: [9, 19]},
+  {index: 3, playtime: 1200, tags: [9, 19]}
 ]);
 var vector2 = Recommender.buildTopicsVector([
-  {index: 3, minutesPlayed: 60, tags: [9, 19]}
+  {index: 3, playtime: 60, tags: [9, 19]}
 ]);
 var vector3 = Recommender.buildTopicsVector([
-  {index: 0, minutesPlayed: 270, tags: [9, 19]},
-  {index: 3, minutesPlayed: 270, tags: [9, 84]}
+  {index: 0, playtime: 270, tags: [9, 19]},
+  {index: 3, playtime: 270, tags: [9, 84]}
 ]);
 var vector4 = Recommender.buildTopicsVector([
-  {index: 2, minutesPlayed: 60000, tags: [4608, 1027]}
+  {index: 2, playtime: 60000, tags: [4608, 1027]}
 ]);
 
 console.log(Recommender.recommend(vector1, [vector2, vector3, vector4]).slice(0, 3));

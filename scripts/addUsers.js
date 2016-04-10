@@ -36,7 +36,7 @@ Db.sync().then(createUsers).then(() => {
         user.games.owned.forEach((game) => {
           games[game.id] = games[game.id] || {};
           games[game.id].owned = true;
-          games[game.id].minutesPlayed = game.playtime.total
+          games[game.id].playtime = game.playtime.total
         });
         user.games.followed.forEach((game) => {
           games[game.id] = games[game.id] || {};
@@ -59,7 +59,7 @@ Db.sync().then(createUsers).then(() => {
             followed: games[id].followed,
             wishlist: games[id].wishlist,
             reviewed: games[id].reviewed,
-            minutesPlayed: games[id].minutesPlayed
+            playtime: games[id].playtime
           };
         }).filter((r) => allGames.indexOf(r.gameId) > -1);
 
