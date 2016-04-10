@@ -55,6 +55,20 @@ angular.module('gameApp.services')
     });
   };
 
+  User.getRecommendations = function () {
+    return $http({
+      method: 'GET',
+      url: '/api/user/recommend'
+    });
+  };
+
+  User.getUsersDetails = function (userIds) {
+    return $http({
+      method: 'GET',
+      url: '/api/user/details/' + userIds.join(',')
+    });
+  };
+
   return User;
 })
 .factory('Login', function () {

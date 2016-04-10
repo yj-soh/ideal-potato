@@ -50,4 +50,15 @@ angular.module('gameApp.controllers')
   Post.getAllPosts().success(function (response) {
     $scope.posts = response;
   });
+})
+.controller('FriendsController', function ($scope, User, Login) {
+  'use strict';
+
+  if (!Login.isLoggedIn) return;
+
+  User.getRecommendations().success(function (recommendations) {
+    User.getUsersDetails(recommendations).success(function (response) {
+      $scope.recommendations = response;
+    });
+  });
 });

@@ -45,6 +45,12 @@ Class.registerRoutes = function () {
 
   this.server.route({
     method: 'GET',
+    path: '/details/{userIds}',
+    handler: getUserDetails
+  });
+
+  this.server.route({
+    method: 'GET',
     path: '/games',
     handler: getOwnGames
   });
@@ -177,6 +183,13 @@ const getFriendRecommendation = function (request, reply) {
     });
   }).catch(console.log);
 };
+
+const getUserDetails = function (request, reply) {
+  let userIds = request.params.userIds.split(',');
+  Crawler.getUserProfile(userIds).then((users) => {
+    reply(users);
+  });
+}
 
 const getUserProfile = function (request, reply) {
   Promise.all([
