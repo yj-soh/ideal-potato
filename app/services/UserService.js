@@ -29,7 +29,15 @@ const getUserGames = () => {
       if (shouldUpdate()) {
         userGames = update();
       }
-      return userGames.then((users) => users.filter((u) => u.id === id)[0]);
+
+      let user = userGames.then((users) => users.filter((u) => u.id === id)[0]);
+
+      if (user) {
+        return user;
+      } else {
+        userGames = update();
+        return userGames.then((users) => users.filter((u) => u.id === id)[0]);
+      }
     },
     without: (id) => {
       if (shouldUpdate()) {
