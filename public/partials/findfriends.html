@@ -15,7 +15,7 @@
           <br> -->
           <div class="friend-games">
               <h4>Also plays:</h4>
-              <img ng-repeat="game in user.reason | limitTo: 4" ng-src="http://cdn.akamai.steamstatic.com/steam/apps/{{getGameIdFromIndex(game.index)}}/header.jpg">
+              <img ng-repeat="game in user.reason | orderBy: '-value' | limitTo: 4" ng-src="http://cdn.akamai.steamstatic.com/steam/apps/{{getGameIdFromIndex(game.index)}}/header.jpg">
           </div>
       </div>
       <div class="friend-actions media-right">
