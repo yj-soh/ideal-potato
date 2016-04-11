@@ -6,7 +6,7 @@
     <div class="col-sm-3 profile-basic-information">
       <img ng-src="{{user.image}}"></img>
       <h4>{{user.name}}</h4>
-      <a class="button blue-button">Add On Steam</a>
+      <a ng-href="steam://friends/add/{{user.id}}" class="button blue-button">Add On Steam</a>
       <a class="button" target="_blank" ng-href="https://steamcommunity.com/profiles/{{user.id}}">View Steam Profile</a>
     </div>
     <div class="col-sm-9 profile-main">

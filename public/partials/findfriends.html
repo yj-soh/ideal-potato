@@ -8,18 +8,13 @@
           <h4>{{getUserDetails(user.id).name}}</h4>
       </a>
       <div class="friend-information media-body">
-          <!-- <div class="friend-tags">
-              Also likes:<br>
-              <span ng-repeat="tag in recommendations[$index].treason | limitTo: 5" class="game-tag">{{getTagName(tag.id)}}</span>
-          </div>
-          <br> -->
           <div class="friend-games">
               <h4>Also plays:</h4>
               <img ng-repeat="game in user.reason | orderBy: '-value' | limitTo: 8" ng-src="http://cdn.akamai.steamstatic.com/steam/apps/{{getGameIdFromIndex(game.index)}}/header.jpg">
           </div>
       </div>
       <div class="friend-actions media-right">
-          <a class="button blue-button">Add Friend</a>
+          <a ng-href="steam://friends/add/{{user.id}}" class="button blue-button">Add Friend</a>
           <a ng-href="#/profile/{{user.id}}" class="button">Profile</a>
       </div>
   </li>
