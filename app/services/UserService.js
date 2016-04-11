@@ -30,7 +30,10 @@ const getUserGames = () => {
         userGames = update();
       }
 
-      let user = userGames.then((users) => users.filter((u) => u.id === id)[0]);
+      let user = userGames.then((users) => {
+        let curUser = users.filter((u) => u.id === id);
+        return curUser.length > 0 ? curUser[0] : false;
+      });
 
       if (user) {
         return user;
