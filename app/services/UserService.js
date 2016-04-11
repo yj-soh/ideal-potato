@@ -103,7 +103,7 @@ Class.getRecommendations = function (userId, numRecommendation, recommendByGames
       );
 
       for (var i = 0; i < recommendations.length; i++) {
-        if (recommendations[i].similarity > 0.7) { // only reason if quite similar
+        if (recommendations[i].similarity > 0) { // only reason if there is a need to
           recommendations[i].reason = Recommender.reasonGames(userVector, usersVector[i]);
         }
       }

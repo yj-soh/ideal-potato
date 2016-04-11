@@ -27,7 +27,7 @@ let processUsers = (users, cb) => {
     console.log(`Recommended for ${user.user}...`);
     fs.appendFile(FILE_USERS_RANKINGS, JSON.stringify({
           user: user.user,
-          recommendations: rec
+          recommendations: rec.map((r) => r.id)
         }) + '\n', () => {
       processUsers(users, cb);
     });

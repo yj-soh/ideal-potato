@@ -75,7 +75,7 @@ Recommender.cleanArray = function (array) {
 Recommender.buildGamesVector = function (games) {
   var gamesVector = [];
   games.forEach((game) => {
-    gamesVector[game.index] = game.playtime;
+    gamesVector[game.index] = Math.log(game.playtime + 1) / Math.log(2) + 1;
   });
 
   Recommender.cleanArray(gamesVector);
@@ -87,7 +87,7 @@ Recommender.buildTagsVector = function (games) {
   games.forEach((game) => {
     game.tags.forEach((tag) => {
       tagsVector[tag] = tagsVector[tag] || 0;
-      tagsVector[tag] += game.playtime;
+      tagsVector[tag] += Math.log(game.playtime + 1) / Math.log(2) + 1;
     });
   });
 
@@ -101,7 +101,7 @@ Recommender.buildTopicsVector = function (games) {
     game.tags.forEach((originalTag) => {
       tagTopicModel[originalTag].forEach((tag) => {
         topicsVector[tag] = topicsVector[tag] || 0;
-        topicsVector[tag] += game.playtime;
+        topicsVector[tag] += Math.log(game.playtime + 1) / Math.log(2) + 1;
       });
     });
   });
