@@ -32,9 +32,16 @@ const getAllPosts = function (request, reply) {
     }
 
     Crawler.getUserProfile(userIds).then(
-      (user) => {
+      (users) => {
+        function getUserById(users, userId) {
+          for (var i = 0; i < users.length; i++) {
+            if (users[i].id == userId) {
+              return users[i];
+            }
+          }
+        }
         for (var i = 0; i < posts.length; i++) {
-          posts[i].dataValues.user = user[i];
+          posts[i].dataValues.user = getUserById(users, posts[i].poster);
         }
         reply(posts);
       }
