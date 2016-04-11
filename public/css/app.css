@@ -157,6 +157,8 @@ input.search-box {
 
 .recommended-friends .friend-picture h4 {
   text-align: center;
+  overflow-wrap: break-word;
+  max-width: 100px;
 }
 
 .recommended-friends .friend-information {
@@ -170,6 +172,7 @@ input.search-box {
 .recommended-friends .friend-games img {
   max-width: 150px;
   margin-right: 10px;
+  margin-bottom: 10px;
 }
 
 .game-tag {
